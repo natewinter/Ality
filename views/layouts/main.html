@@ -10,13 +10,7 @@
         
 	</head>
 	<body>
-		<h1>{{user.username}}</h1>
-		<div class="container">
-		{{#each stat_lists}}
-			<p>{{stat_lists.name}}</p>
-			{{!-- When clicked, will take user to corresponding stat table page --}}
-			<a href="/{{user.username}}/{{stat_lists.id}}" class="stat-table button" data-id="{{stat_lists.id}}">Enter Table</a>
-		{{/each}}
-		</div>
+        {{{ body }}}
+        TEST PAGE, MAKE SURE TO DELETE FILE!!!!
 	</body>
 </html>
