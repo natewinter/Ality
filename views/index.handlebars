@@ -1,38 +1,38 @@
-<h1>Cats!</h1>
+<h1>Ality</h1>
 
-<h2>Cats that are not sleepy!</h2>
+<h2>Stats with a purpose</h2>
+<p>Ality is a cool website that lets you create your own number-crunching spreadsheets.</p>
 
-<ul>
-  {{#each cats}}
-    {{#unless sleepy}}
-      {{> cats/cat-block sleep=true}}
-    {{/unless}}
-  {{/each}}
-</ul>
+<div class="container">
+  <h2>Login</h2>
+  <form class="login-form">
+    <div class="form-group">
+      <label>Username:</label>
+      <input type="text" id="login_username" name="Username">
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="text" id="login_password" name="Password">
+    </div>
+  </form>
 
-<h2>Cats that are sleepy!</h2>
+  <h2>New User</h2>
+  <form class="new-user-form">
+    <div class="form-group">
+      <label for="ca">Username:</label>
+      <input type="text" id="ca" name="new_username">
+    </div>
 
-<ul>
-  {{#each cats}}
-    {{#if sleepy}}
-      {{> cats/cat-block sleep=false}}
-    {{/if}}
-  {{/each}}
-</ul>
+    <div class="form-group">
+      <label for="ca">Email:</label>
+      <input type="text" id="ca" name="new_email">
+    </div>
 
-<h2>Add a Cat</h2>
-<form class="create-form">
+    <div class="form-group">
+      <label for="ca">Password:</label>
+      <input type="text" id="ca" name="new_password">
+    </div>
 
-  <div class="form-group">
-    <label for="ca">Cat Name:</label>
-    <input type="text" id="ca" name="name">
-  </div>
-
-  <div class="form-group">
-    <label for="sleepy">Sleepy?</label><br>
-    <input type="radio" name="sleepy" value="1" checked> Sleepy!<br>
-    <input type="radio" name="sleepy" value="0"> Awake
-  </div>
-
-  <button type="submit">Add Cat</button>
-</form>
+    <button type="submit">Add User</button>
+  </form>
+</div>
