@@ -1,30 +1,13 @@
-<h1>Cats!</h1>
+<h1>Ality</h1>
 
-<h2>Cats that are not sleepy!</h2>
+<h2>Stats with a purpose</h2>
+<p>Ality is a cool website that lets you create your own number-crunching spreadsheets.</p>
 
-<ul>
-  {{#each cats}}
-    {{#unless sleepy}}
-      {{> cats/cat-block sleep=true}}
-    {{/unless}}
-  {{/each}}
-</ul>
-
-<h2>Cats that are sleepy!</h2>
-
-<ul>
-  {{#each cats}}
-    {{#if sleepy}}
-      {{> cats/cat-block sleep=false}}
-    {{/if}}
-  {{/each}}
-</ul>
-
-<h2>Add a Cat</h2>
+<h2>New User</h2>
 <form class="create-form">
 
   <div class="form-group">
-    <label for="ca">Cat Name:</label>
+    <label for="ca">Username:</label>
     <input type="text" id="ca" name="name">
   </div>
 
@@ -34,5 +17,5 @@
     <input type="radio" name="sleepy" value="0"> Awake
   </div>
 
-  <button type="submit">Add Cat</button>
+  <button type="submit">Add User</button>
 </form>
