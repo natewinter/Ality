@@ -1,10 +1,23 @@
-var express = require("express");
+const express = require("express");
 
-var router = express.Router();
+const router = express.Router();
 
-// Import the model (cat.js) to use its database functions.
-var db = require("../models/");
+// Import the model to use its database functions.
+const db = require("../models/");
 
 //Build routes here!!!
+router.get("/", (req, res)=>{
+    res.send("homepage")
+})
+router.get("/users", (req, res) =>{
+    db.User.findAll({
+        where: {
+            id: req.params.id
+        }
+    }
+    ).then(function(dbUser){
+        res.json(dbUser)
+    })
 
+});
 module.exports = router;
