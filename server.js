@@ -22,9 +22,9 @@ var routes = require("./controllers/ality_controllers.js");
 app.use(routes);
 
 // Start server with sequelize so that it can begin listening to client requests.
-db.sequelize.sync({ force: true}).then=()=>{
+// db.sequelize.sync({ force: false}).then=()=>{
 app.listen(PORT, function() {
   // Log (server-side) when our server has started
   console.log("Server listening on: http://localhost:" + PORT);
 });
-};
+// };

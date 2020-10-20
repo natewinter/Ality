@@ -1,10 +1,13 @@
-var express = require("express");
+const express = require("express");
 
-var router = express.Router();
+const router = express.Router();
 
 // Import the model (cat.js) to use its database functions.
-var db = require("../models/");
+const db = require("../models/");
 
 //Build routes here!!!
-
+router.get("/", (req,res) => {
+    console.log("ality test");
+    return res.render("index");
+} )
 module.exports = router;
