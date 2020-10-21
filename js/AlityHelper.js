@@ -1,6 +1,6 @@
-const Stat = require("classes/Stat.js");
-const Ality = require("classes/Ality.js");
-const StatList = require("classes/StatList.js");
+const Stat = require("./classes/Stat.js");
+const Ality = require("./classes/Ality.js");
+const StatList = require("./classes/StatList.js");
 
 const StatTypes = {
     COUNTER: 0x01,
