@@ -9,8 +9,8 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
     Ality.associate = function (models) {
-        Ality.belongsTo(models.statList);
-        Ality.hasMany(models.dataValues);
+        Ality.belongsTo(models.Stat_List);
+        Ality.hasMany(models.Data_Value);
     }
     return Ality;
 };

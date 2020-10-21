@@ -1,22 +1,21 @@
 module.exports = function (sequelize, DataTypes) {
-    let statList = sequelize.define("statList", {
-        // commented out because we have userId already
-        // userId: {
-        //     type: DataTypes.INTEGER
-        // },
-        statListName: {
-            type: DataTypes.STRING(128),
-            allowNull: false
-        },
-        public: {
-            type: DataTypes.BOOLEAN,
-            default: false
+        const Stat_List = sequelize.define("Stat_List", {
+            user_id: {
+                type: DataTypes.INTEGER
+            },
+            stat_list_name: {
+               type: DataTypes.STRING(128),
+               allowNull: false
+            },
+            public: {
+                type: DataTypes.BOOLEAN,
+                default: false
+            }  
+        });
+        Stat_List.associate = function(models){
+            Stat_List.belongsTo(models.User);
+            Stat_List.hasMany(models.Ality);
         }
-    });
-    statList.associate = function (models) {
-        statList.belongsTo(models.User);
-        statList.hasMany(models.Ality);
-    }
-    return statList;
+        return Stat_List;
 
 };
