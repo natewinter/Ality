@@ -1,7 +1,14 @@
 <h1>{{user.username}}</h1>
+<form class="new-table">
+    <div class="form-group">
+      <label>New Table Name:</label>
+      <input type="text" id="stat-list-name" name="statListName">
+    </div>
+    <button type="submit">New Ality</button>
+  </form>
 <div class="container">
 {{#each stat_lists}}
-    <p>{{stat_lists.name}}</p>
+    <p>{{stat_lists.statListName}}</p>
     {{!-- When clicked, will take user to corresponding stat table page --}}
     <a href="/{{user.username}}/{{stat_lists.id}}" class="stat-table button" data-id="{{stat_lists.id}}">Enter Table</a>
 {{/each}}
