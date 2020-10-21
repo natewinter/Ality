@@ -6,19 +6,52 @@ const router = express.Router();
 const db = require("../models/");
 
 //Build routes here!!!
-router.get("/", (req, res) => {
-    res.render("index");
-});
 
-router.get("/:id", (req, res) => {
+// PUBLIC =========================================================================================================
+  router.get("/", (req, res) => {
+      res.render("index");
+  });
+
+router.get("users/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id,
         },
     }).then(function (dbUser) {
         console.log(dbUser);
-        return res.render("index", dbUser);
+        return res.render("user", dbUser);
     });
+});
+router.get("stat-list/:id", (req, res) => {
+    db.Stat_List.findOne({
+        where: {
+            id: req.params.id,
+        },
+    }).then(function (dbStat_List) {
+        console.log(dbStat_List);
+        return res.render("stat_list", dbStat_List);
+    });
+});
+
+//  APIS =====================================================================
+
+router.post("api/users", function (req, res) {
+  db.User.create({
+      username: req.body.username,
+      email: req.body.email,
+  }).then(function (dbUser) {
+      console.log(dbUser);
+      res.redirect("/");
+  });
+});
+router.get("api/users", function (req, res) {
+  db.User.findAll().then(function (dbUser) {
+    if(!dbUser){
+      return res.status(404).end()
+    };
+      console.log(dbUser);
+      return res.json(dbUser);
+  });
 });
 // router.get("/:username", (req, res)=> {
 //     db.User.findOne({
@@ -33,97 +66,108 @@ router.get("/:id", (req, res) => {
 //     })
 // });
 
-router.get("/:username", (req, res) => {
-    db.User.findAll({
-        where: {
-            username: req.params.username,
-        },
-        include: [db.Stat_List],
-    }).then(function (dbUser) {
-        console.log(dbUser);
-        return res.render("user", dbUser);
-    });
-});
+// router.get("/:username", (req, res) => {
+//     db.User.findAll({
+//         where: {
+//             username: req.params.username,
+//         },
+//         include: [db.Stat_List],
+//     }).then(function (dbUser) {
+//         console.log(dbUser);
+//         return res.render("user", dbUser);
+//     });
+// });
 
-router.post("/stat_list/create", function (req, res) {
+router.post("api/stat-lists", function (req, res) {
     db.Stat_List.create({
         stat_list_name: req.body.stat_list,
-    }).then(function (data) {
-        console.log(data);
+    }).then(function (dbStatlist) {
+        console.log(dbStatlist);
         // res.reload();
         res.redirect("/user")
     });
 });
-
-router.post("/users/create", function (req, res) {
-    db.User.create({
-        username: req.body.username,
-        email: req.body.email,
-    }).then(function (dbUser) {
-        console.log(dbUser);
-        res.redirect("/");
+router.get("api/stat-lists", function (req, res) {
+    db.Stat_List.findAll().then(function (dbStatlist) {
+        console.log(dbStatlist);
+        // res.reload();
+        if(!dbStatlist){
+          return res.status(404).end()
+        };
+        return res.json(dbStatlist);
     });
 });
-router.post("/ality/create", function (req, res) {
+
+router.post("api/ality", function (req, res) {
     db.Ality.create({
         name: req.body.name,
         image: req.body.image,
         stat_list_id: req.body.stat_list_id
-    }).then(function (dbUser) {
-        console.log(dbUser);
+    }).then(function (dbAlity) {
+        console.log(dbAlity);
         // res.reload();
         res.redirect("/user")
     });
 });
-
-
-router.get("/api/:id", (req, res) => {
-    db.User.findOne({
-        where: {
-            id: req.params.id,
-        },
-    }).then(function (dbUser) {
-        res.json(dbUser);
+router.get("api/ality", function (req, res) {
+    db.Ality.findAll().then(function (dbAlity) {
+      if(!dbAlity){
+        return res.status(404).end()
+      };
+        console.log(dbAlity);
+        // res.reload();
+        return res.json(dbAlity)
     });
 });
 
-router.get("/api/ality/:name", (req, res) => {
-    db.Ality.findOne({
-        where: {
-            name: req.params.name,
-        },
-    }).then(function (data) {
-        res.json(data);
-    });
+router.post("api/stat-defs", function (req, res) {
+  db.Stat_Def.create({
+      name: req.body.name,
+      stat_type: req.body.stat_type
+  }).then(function (dbStatDef) {
+      console.log(dbStatDef);
+      // res.reload();
+      res.redirect("/user")
+  });
 });
 
-router.get("/", (req, res) => {
-    res.render("index")
+router.get("api/stat-defs", function (req, res) {
+  db.Stat_Def.findAll().then(function (dbStatDef) {
+      console.log(dbStatDef);
+      // res.reload();
+      if(!dbStatDef){
+        return res.status(404).end()
+      };
+        console.log(dbStatDef);
+        // res.reload();
+        return res.json(dbStatDef)
+  });
 });
 
-router.get("/:id", (req, res) => {
-    db.User.findOne({
-        where: {
-            id: req.params.id
-        }
-    }).then(function (dbUser) {
-        console.log(dbUser)
-        return res.render("index", dbUser);
-
-    })
+router.post("api/data-values", function (req, res) {
+  db.Data_Value.create({
+      val_A: req.body.val_A,
+      val_B: req.body.val_B
+  }).then(function (dbDataValue) {
+      console.log(dbDataValue);
+      // res.reload();
+      res.redirect("/user")
+  });
 });
 
-router.post('/users/create', function (req, res) {
-    db.User.create({
-        username: req.body.username,
-        email: req.body.email
-    }).then(function (dbUser) {
-        console.log(dbUser);
-        res.redirect("/")
-    })
-})
+router.get("api/data-values", function (req, res) {
+  db.Data_Value.findAll().then(function (dbDataValue) {
+      console.log(dbDataValue);
+      if(!dbDataValue){
+        return res.status(404).end()
+      };
+        console.log(dbDataValue);
+        // res.reload();
+        return res.json(dbDataValue)
+  });
+});
 
-router.get("/api/:id", (req, res) => {
+router.get("/api/users/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id
