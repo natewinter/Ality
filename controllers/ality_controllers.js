@@ -22,11 +22,37 @@ router.get("/:id", (req, res)=> {
         
     })
 });
+router.get("/:username", (req, res)=> {
+    db.User.findOne({
+        where:{
+            username:req.params.username
+        }
+    }
+    ).then(function(dbUser){
+        console.log(dbUser)
+        return res.render("index",dbUser);
+        
+    })
+});
 
-router.post('/users/create',function(req,res){
+router.get("/:username/:stat_list", (req, res)=> {
+    db.User.findOne({
+        where:{
+            username:req.params.username
+        },
+        include: [db.statList]
+    }
+    ).then(function(dbUser){
+        console.log(dbUser)
+        return res.render("index",dbUser);
+        
+    })
+});
+
+router.post('/users/create', function(req,res){
     db.User.create({
-        username:req.body.username,
-        email:req.body.email
+        username: req.body.username,
+        email: req.body.email
     }).then(function(dbUser){
         console.log(dbUser);
         res.redirect("/")

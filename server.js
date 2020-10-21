@@ -21,15 +21,7 @@ app.set("view engine", "handlebars");
 const routes = require("./controllers/ality_controllers.js");
 app.use(routes);
 
-// app.get('/api/users',function(req,res){
-//   db.User.findAll().then(users=> {
-//     res.json(users)
-//   })
-// })
-
-// app.get
 // Start server with sequelize so that it can begin listening to client requests.
-
 db.sequelize.sync({ force: false}).then(function(){
 
 app.listen(PORT, function() {
