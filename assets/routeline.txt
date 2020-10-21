@@ -1,0 +1,12 @@
+PUBLIC (GET only)
+/
+/users/:id
+/stat-lists/:id
+/test/????
+
+API (4 each)
+/api/users/:id
+/api/stat-lists/:id
+/api/alities/:id
+/api/stat-defs/:id
+/api/data-values/:id
