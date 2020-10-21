@@ -4,6 +4,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(64),
             allowNull: false
         },
+        stat_list_id: DataTypes.INTEGER,
+        
         image: {
             type: DataTypes.STRING(128)
         }
