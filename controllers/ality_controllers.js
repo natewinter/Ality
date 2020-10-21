@@ -12,7 +12,7 @@ const db = require("../models/");
       res.render("index");
   });
 
-router.get("users/:id", (req, res) => {
+router.get("/users/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id,
@@ -22,7 +22,8 @@ router.get("users/:id", (req, res) => {
         return res.render("user", dbUser);
     });
 });
-router.get("stat-list/:id", (req, res) => {
+
+router.get("/stat-list/:id", (req, res) => {
     db.Stat_List.findOne({
         where: {
             id: req.params.id,
@@ -35,16 +36,17 @@ router.get("stat-list/:id", (req, res) => {
 
 //  APIS =====================================================================
 
-router.post("api/users", function (req, res) {
+router.post("/api/users", function (req, res) {
+    console.log("req.body:", req.body);
   db.User.create({
       username: req.body.username,
-      email: req.body.email,
+      email: req.body.email
   }).then(function (dbUser) {
       console.log(dbUser);
       res.redirect("/");
   });
 });
-router.get("api/users", function (req, res) {
+router.get("/api/users", function (req, res) {
   db.User.findAll().then(function (dbUser) {
     if(!dbUser){
       return res.status(404).end()
