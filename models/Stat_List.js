@@ -1,9 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
-        const statList = sequelize.define("stat_list", {
-            userId: {
+        const Stat_List = sequelize.define("stat_list", {
+            user_id: {
                 type: DataTypes.INTEGER
             },
-            statListName: {
+            stat_list_name: {
                type: DataTypes.STRING(128),
                allowNull: false
             },
@@ -12,10 +12,10 @@ module.exports = function (sequelize, DataTypes) {
                 default: false
             }  
         });
-        statList.associate = function(models){
+        Stat_List.associate = function(models){
             statList.belongsTo(models.User);
             statList.hasMany(models.Ality);
         }
-        return statList;
+        return Stat_List;
 
     }
