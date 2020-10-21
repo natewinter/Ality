@@ -4,15 +4,16 @@ const router = express.Router();
 
 // Import the model to use its database functions.
 const db = require("../models/");
+const AlityHelper = require("../js/AlityHelper.js");
 
 //Build routes here!!!
 
 // PUBLIC =========================================================================================================
-  router.get("/", (req, res) => {
-      res.render("index");
-  });
+router.get("/", (req, res) => {
+    res.render("index");
+});
 
-router.get("users/:id", (req, res) => {
+router.get("/users/:id", (req, res) => {
     db.User.findOne({
         where: {
             id: req.params.id,
@@ -22,7 +23,8 @@ router.get("users/:id", (req, res) => {
         return res.render("user", dbUser);
     });
 });
-router.get("stat-list/:id", (req, res) => {
+
+router.get("/stat-list/:id", (req, res) => {
     db.Stat_List.findOne({
         where: {
             id: req.params.id,
@@ -35,7 +37,7 @@ router.get("stat-list/:id", (req, res) => {
 
 //  APIS =====================================================================
 
-router.post("api/users", function (req, res) {
+router.post("/api/users", function (req, res) {
   db.User.create({
       username: req.body.username,
       email: req.body.email,
@@ -44,7 +46,8 @@ router.post("api/users", function (req, res) {
       res.redirect("/");
   });
 });
-router.get("api/users", function (req, res) {
+
+router.get("/api/users", function (req, res) {
   db.User.findAll().then(function (dbUser) {
     if(!dbUser){
       return res.status(404).end()
@@ -53,32 +56,8 @@ router.get("api/users", function (req, res) {
       return res.json(dbUser);
   });
 });
-// router.get("/:username", (req, res)=> {
-//     db.User.findOne({
-//         where:{
-//             username:req.params.username
-//         }
-//     }
-//     ).then(function(dbUser){
-//         console.log(dbUser)
-//         return res.render("index",dbUser);
 
-//     })
-// });
-
-// router.get("/:username", (req, res) => {
-//     db.User.findAll({
-//         where: {
-//             username: req.params.username,
-//         },
-//         include: [db.Stat_List],
-//     }).then(function (dbUser) {
-//         console.log(dbUser);
-//         return res.render("user", dbUser);
-//     });
-// });
-
-router.post("api/stat-lists", function (req, res) {
+router.post("/api/stat-lists", function (req, res) {
     db.Stat_List.create({
         stat_list_name: req.body.stat_list,
     }).then(function (dbStatlist) {
@@ -87,7 +66,8 @@ router.post("api/stat-lists", function (req, res) {
         res.redirect("/user")
     });
 });
-router.get("api/stat-lists", function (req, res) {
+
+router.get("/api/stat-lists", function (req, res) {
     db.Stat_List.findAll().then(function (dbStatlist) {
         console.log(dbStatlist);
         // res.reload();
@@ -98,7 +78,7 @@ router.get("api/stat-lists", function (req, res) {
     });
 });
 
-router.post("api/ality", function (req, res) {
+router.post("/api/ality", function (req, res) {
     db.Ality.create({
         name: req.body.name,
         image: req.body.image,
@@ -109,7 +89,8 @@ router.post("api/ality", function (req, res) {
         res.redirect("/user")
     });
 });
-router.get("api/ality", function (req, res) {
+
+router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
       if(!dbAlity){
         return res.status(404).end()
@@ -120,7 +101,7 @@ router.get("api/ality", function (req, res) {
     });
 });
 
-router.post("api/stat-defs", function (req, res) {
+router.post("/api/stat-defs", function (req, res) {
   db.Stat_Def.create({
       name: req.body.name,
       stat_type: req.body.stat_type
@@ -131,7 +112,7 @@ router.post("api/stat-defs", function (req, res) {
   });
 });
 
-router.get("api/stat-defs", function (req, res) {
+router.get("/api/stat-defs", function (req, res) {
   db.Stat_Def.findAll().then(function (dbStatDef) {
       console.log(dbStatDef);
       // res.reload();
@@ -144,7 +125,7 @@ router.get("api/stat-defs", function (req, res) {
   });
 });
 
-router.post("api/data-values", function (req, res) {
+router.post("/api/data-values", function (req, res) {
   db.Data_Value.create({
       val_A: req.body.val_A,
       val_B: req.body.val_B
@@ -155,7 +136,7 @@ router.post("api/data-values", function (req, res) {
   });
 });
 
-router.get("api/data-values", function (req, res) {
+router.get("/api/data-values", function (req, res) {
   db.Data_Value.findAll().then(function (dbDataValue) {
       console.log(dbDataValue);
       if(!dbDataValue){
@@ -311,7 +292,7 @@ router.get("/test/stat-list", (req, res) => {
         }]
     }
     res.render("stat_list", testStatList);
-})
+});
 
 
 module.exports = router;
