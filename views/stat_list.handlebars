@@ -1,0 +1,12 @@
+<div class="grid-container">
+    <h1>Stat List: {{name}}</h1>
+    <div class="grid-x grid-margin-x">
+        {{#each alities}}
+            <div class="cell small-6 medium-4">
+                {{#> ality name=this.name imgsrc=this.imgsrc stats=this.stats}}
+                    ERROR: Card not found
+                {{/ality}}
+            </div>
+        {{/each}}
+    </div>
+</div>
