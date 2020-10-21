@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const statDefs = sequelize.define("statDefs", {
+    const statDefs = sequelize.define("stat_def", {
         name: {
             type: DataTypes.STRING(64)
         },

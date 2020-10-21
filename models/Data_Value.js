@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const dataValues = sequelize.define("dataValues", {
+    const dataValues = sequelize.define("data_value", {
         val_A: {
             type: DataTypes.DECIMAL
         },
