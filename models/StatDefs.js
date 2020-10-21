@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const statDefs = sequelize.define("statDefs", {
+    let statDefs = sequelize.define("statDefs", {
         name: {
             type: DataTypes.STRING(64)
         },
@@ -11,4 +11,4 @@ module.exports = function (sequelize, DataTypes) {
         statDefs.hasMany(models.dataValues);
     }
     return statDefs;
-}
+};

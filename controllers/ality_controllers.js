@@ -7,17 +7,42 @@ const db = require("../models/");
 
 //Build routes here!!!
 router.get("/", (req, res)=>{
-    res.send("homepage")
+    res.render("index")
+});
+
+router.get("/:id", (req, res)=> {
+    db.User.findOne({
+        where:{
+            id:req.params.id
+        }
+    }
+    ).then(function(dbUser){
+        console.log(dbUser)
+        return res.render("index",dbUser);
+        
+    })
+});
+
+router.post('/users/create',function(req,res){
+    db.User.create({
+        username:req.body.username,
+        email:req.body.email
+    }).then(function(dbUser){
+        console.log(dbUser);
+        res.redirect("/")
+    })
 })
-router.get("/users", (req, res) =>{
-    db.User.findAll({
-        where: {
-            id: req.params.id
+
+router.get("/api/:id", (req, res)=> {
+    db.User.findOne({
+        where:{
+            id:req.params.id
         }
     }
     ).then(function(dbUser){
         res.json(dbUser)
     })
-
 });
+
+
 module.exports = router;

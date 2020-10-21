@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const dataValues = sequelize.define("dataValues", {
+    let dataValues = sequelize.define("dataValues", {
         val_A: {
             type: DataTypes.DECIMAL
         },
@@ -9,8 +9,8 @@ module.exports = function (sequelize, DataTypes) {
     });
     dataValues.associate = function (models) {
         dataValues.belongsTo(models.Ality);
-        dataValues.belongsTo(models.StatDefs);
+        dataValues.belongsTo(models.statDefs);
     }
     return dataValues;
 
-}
+};
