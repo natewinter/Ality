@@ -18,8 +18,7 @@ router.get("/:id", (req, res)=> {
     }
     ).then(function(dbUser){
         console.log(dbUser)
-        return res.render("index",dbUser);
-        
+        return res.render("user",hbsObject);
     })
 });
 
@@ -32,6 +31,10 @@ router.post('/users/create',function(req,res){
         res.redirect("/")
     })
 })
+
+//another post route to add a new stat_list
+
+//another post route to add a new stat card on the ality page
 
 router.get("/api/:id", (req, res)=> {
     db.User.findOne({

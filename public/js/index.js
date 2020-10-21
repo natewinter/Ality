@@ -25,7 +25,7 @@ $(function() {
         var password = $("#new_password").val().trim();
         var email = $("#new_email").val().trim();
         //Send POST request to make new User first
-        $.ajax("/api/users", {
+        $.ajax("/users/create", {
             type: "POST",
             username: username,
             password: password,
@@ -37,4 +37,14 @@ $(function() {
             }
           );
       });
+
+    // Making post request to make a new stat_list
+    $(".new-stat-list").on("submit", function(event){
+      event.preventDefault();
+      var stat_list_name = $("#stat-list-name").val().trim();
+      $.ajax("/stat_list/create", {
+        type: "POST",
+        stat_list_name: stat_list_name
+      })
+    })
 })
