@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Ality = sequelize.define("Ality", {
+    let Ality = sequelize.define("Ality", {
         name: {
             type: DataTypes.STRING(64),
             allowNull: false
@@ -13,4 +13,4 @@ module.exports = function (sequelize, DataTypes) {
         Ality.hasMany(models.Data_Values);
     }
     return Ality;
-}
+};
