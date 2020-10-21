@@ -20,6 +20,9 @@ router.get("/:id", (req, res)=> {
         console.log(dbUser)
         return res.render("index",dbUser);
         
+    }).catch(err=>{
+        console.log(err)
+        res.status(404).json(err);
     })
 });
 
@@ -30,6 +33,9 @@ router.post('/users/create',function(req,res){
     }).then(function(dbUser){
         console.log(dbUser);
         res.redirect("/")
+    }).catch(err=>{
+        console.log(err)
+        res.status(500).json(err);
     })
 })
 
@@ -41,6 +47,9 @@ router.get("/api/:id", (req, res)=> {
     }
     ).then(function(dbUser){
         res.json(dbUser)
+    }).catch(err=>{
+        console.log(err)
+        res.status(500).json(err);
     })
 });
 
