@@ -24,16 +24,16 @@ $(function() {
         var username = $("#new_username").val().trim();
         var password = $("#new_password").val().trim();
         var email = $("#new_email").val().trim();
+        const newUser = {
+          username, password, email
+        }
+        console.log(newUser);
         //Send POST request to make new User first
-        $.ajax("/users/create", {
-            type: "POST",
-            username: username,
-            password: password,
-            email: email
-          }).then(
-            function() {
+        $.post("/api/users", newUser).then(
+            function(res) {
               // Locate user to their new user page
-              location.redirect("/user/" + username);
+              // location.redirect("/user/" + username);
+              console.log(res);
             }
           );
       });

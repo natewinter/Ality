@@ -45,13 +45,12 @@ router.get("/stat-list/:id", (req, res) => {
 router.post("/api/users", function (req, res) {
   db.User.create({
       username: req.body.username,
-      email: req.body.email,
+      email: req.body.email
   }).then(function (dbUser) {
       console.log(dbUser);
       res.redirect("/");
   });
 });
-
 router.get("/api/users", function (req, res) {
   db.User.findAll().then(function (dbUser) {
     if(!dbUser){
