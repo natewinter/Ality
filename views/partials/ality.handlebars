@@ -8,7 +8,7 @@
             <p class="stat-label">{{this.name}}: {{this.type}}</p>
             {{#if this.ratio}}
                 <div class="progress">
-                    <span class="progress-meter">
+                    <span class="progress-meter" style="width: {{this.percentage}}%">
                         <span class="progress-meter-text">
                             {{#if this.colonForm}}
                                 {{this.a}}:{{this.b}}
@@ -20,10 +20,10 @@
                 </div>
             {{/if}}
             {{#if this.counter}}
-                <p>Count: {{this.a}}</p>
+                <p class="stat">{{this.a}}</p>
             {{/if}}
             {{#if this.average}}
-                <p>Total: {{this.a}}, Average: {{this.quo}}</p>
+                <p class="stat">{{this.quo}}</p>
             {{/if}}
         {{/each}}
     </div>
