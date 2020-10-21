@@ -6,6 +6,10 @@ const router = express.Router();
 const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
 
+const seeder = require("../db/seeder.js");
+
+// seeder.seed();
+
 //Build routes here!!!
 
 // PUBLIC =========================================================================================================
@@ -30,6 +34,7 @@ router.get("/stat-list/:id", (req, res) => {
             id: req.params.id,
         },
     }).then(function (dbStat_List) {
+        
         console.log(dbStat_List);
         return res.render("stat_list", dbStat_List);
     });
