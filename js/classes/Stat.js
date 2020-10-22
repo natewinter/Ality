@@ -1,12 +1,19 @@
-const { StatTypes } = require("../AlityHelper");
+const StatTypes = {
+    COUNTER: 0x01,
+    RATIO: {
+        PLAIN: 0x02,
+        COLON: 0x04
+    },
+    AVERAGE: 0x08
+}
 
 class Stat {
     constructor(sqlData){
-        this.name = sqlData.name;
-        this.type = sqlData.type;
+        this.name = sqlData.Stat_Def.name;
+        this.type = sqlData.Stat_Def.stat_type;
         this.setTypeFlags();
-        this.a = sqlData.a;
-        this.b = sqlData.b;
+        this.a = parseFloat(sqlData.val_A);
+        this.b = parseFloat(sqlData.val_B);
         this.calculate();
     }
 
@@ -39,12 +46,15 @@ class Stat {
 
     calculate(){
         if(this.colonForm){
-            this.quo = this.a/(this.a+this.b);
-        }else if(this.ratio){
+            let total = this.a+this.b;
+            this.quo = this.a/total;
+            console.log(total);
+        }else if(this.ratio || this.average){
             this.quo = this.a/this.b;
         }
 
-        this.percentage = quo*100;
+        this.percentage = this.quo*100;
+        console.table([this.percentage, this.quo, this.a, this.b]);
     }
 }
 

@@ -1,9 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
         const Stat_List = sequelize.define("Stat_List", {
-            user_id: {
-                type: DataTypes.INTEGER
-            },
-            stat_list_name: {
+            name: {
                type: DataTypes.STRING(128),
                allowNull: false
             },
