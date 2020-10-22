@@ -1,7 +1,7 @@
 class Ality {
     constructor(sqlData){
         this.name = sqlData.name;
-        this.imgsrc = sqlData.imgsrc;
+        this.imgsrc = sqlData.image;
         this.stats = [];
     }
 

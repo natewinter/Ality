@@ -5,7 +5,7 @@
     <img src={{imgsrc}} alt="">
     <div class="card-section">
         {{#each stats}}
-            <p class="stat-label">{{this.name}}: {{this.type}}</p>
+            <p class="stat-label">{{this.name}}: {{this.typeText}}</p>
             {{#if this.ratio}}
                 <div class="progress">
                     <span class="progress-meter" style="width: {{this.percentage}}%">
