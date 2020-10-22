@@ -42,9 +42,17 @@ $(function() {
     $(".new-stat-list").on("submit", function(event){
       event.preventDefault();
       var stat_list_name = $("#stat-list-name").val().trim();
-      $.ajax("/stat_list/create", {
-        type: "POST",
-        stat_list_name: stat_list_name
-      })
+      var userID = $("#user-id").text();
+      const newStatList = {
+        name: stat_list_name,
+        UserId: userID
+      }
+      console.log("stat_list_name:", newStatList);
+      $.post("/api/stat-lists", newStatList).then(
+        function(res) {
+          console.log(res);
+          window.location.reload();
+        }
+      )
     })
 })
