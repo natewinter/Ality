@@ -1,5 +1,6 @@
 <h1>{{user.username}}</h1>
-<form class="new-table">
+<h6 id="user-id">{{user.id}}</h6>
+<form class="new-stat-list">
     <div class="form-group">
       <label>New Table Name:</label>
       <input type="text" id="stat-list-name" name="statListName">
@@ -8,7 +9,7 @@
   </form>
 <div class="container">
 {{#each stat_lists}}
-    <p>{{stat_lists.statListName}}</p>
+    <p>{{stat_lists.name}}</p>
     {{!-- When clicked, will take user to corresponding stat table page --}}
     <a href="/{{user.username}}/{{stat_lists.id}}" class="stat-table button" data-id="{{stat_lists.id}}">Enter Table</a>
 {{/each}}
