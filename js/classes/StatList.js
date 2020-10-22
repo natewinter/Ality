@@ -1,7 +1,7 @@
 class StatList {
-    constructor(sqlData){
-        this.name = sqlData.name,
-        this.alities = []
+    constructor(name, alities){
+        this.name = name,
+        this.alities = alities
     }
 
     setAlities(alitiesArr){
