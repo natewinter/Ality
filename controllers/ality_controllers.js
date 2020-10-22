@@ -41,6 +41,7 @@ router.get("/users/:name", (req, res) => {
                     user: dbUser.toJSON(),
                     stat_lists: statListArray
                 }
+                console.log(nameAndLists);
                 return res.render("user", nameAndLists);
             });
         } else {
