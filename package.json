@@ -23,6 +23,7 @@
     "express-handlebars": "^5.1.0",
     "foundation-sites": "^6.6.3",
     "jsonwebtoken": "^8.5.1",
+    "motion-ui": "^2.0.3",
     "mysql2": "^2.2.5",
     "node-sass": "^4.14.1",
     "passport": "^0.4.1",
