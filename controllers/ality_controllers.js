@@ -30,7 +30,10 @@ router.get("/users/:name", (req, res) => {
                     {
                         model: db.User 
                     }
-                ]
+                ],
+                where: {
+                    UserId: dbUser.id
+                }
             }).then(dbStat_Lists => {
                 const statListArray = [];
                 for (let index = 0; index < dbStat_Lists.length; index++) {
