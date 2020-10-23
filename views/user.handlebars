@@ -17,27 +17,27 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div> --}}
-  
-<div class="reveal" id="exampleModal1" data-reveal>
-  {{> manyAlity name=this.name imgsrc=this.imgsrc stats=this.stats}}
-  {{!-- <h1>Awesome. I Have It.</h1>
+
+  <div class="reveal" id="exampleModal1" data-reveal>
+    {{> manyAlity name=this.name imgsrc=this.imgsrc stats=this.stats}}
+    {{!-- <h1>Awesome. I Have It.</h1>
   <p class="lead">Your couch. It is mine.</p> --}}
-  <p></p>
+    <p></p>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="reveal" id="exampleModal2" data-reveal>
+    {{> statTypes name=this.name imgsrc=this.imgsrc stats=this.stats}}
+    <p></p>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <p><button class="button" data-open="exampleModal1" data-reveal-id="exampleModal1">New Stat List</button></p>
   <button class="close-button" data-close aria-label="Close modal" type="button">
     <span aria-hidden="true">&times;</span>
   </button>
-</div>
-<div class="reveal" id="exampleModal2" data-reveal>
-  {{> statTypes name=this.name imgsrc=this.imgsrc stats=this.stats}}
-  <p></p>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<p><button class="button" data-open="exampleModal1" data-reveal-id="exampleModal1">New Stat List</button></p>
-<button class="close-button" data-close aria-label="Close modal" type="button">
-  <span aria-hidden="true">&times;</span>
-</button>
 
   <div class="grid-x">
     {{#each stat_lists}}
@@ -50,21 +50,26 @@
 </div>
 
 <script>
-$("#nextButton").on("click", function(event) {
-        const numStats = parseInt($("#sliderOutput1").val());
-        const statDiv = $(".stat-div");
-        for (let i = 0; i < numStats; i++)
-        {
-          const newDiv = $("<div class='grid-x'>");
-          const selectType = $("<select class='cell small-4'>")
-          newDiv.append($("<input type='text' placeholder='stat-name' class='cell small-8'>"));
-          selectType.append($("<option value='1'>").text("Counter"));
-          selectType.append($("<option value='2'>").text("Ratio"));
-          selectType.append($("<option value='4'>").text("Colon Ratio"));
-          selectType.append($("<option value='8'>").text("Average"));
-          newDiv.append(selectType);
-          statDiv.append(newDiv);
-        }
-        
-    })
+  $("#nextButton").on("click", function (event) {
+    const numStats = parseInt($("#sliderOutput1").val());
+    const statDiv = $(".stat-div");
+    for (let i = 0; i < numStats; i++) {
+      const newDiv = $("<div class='grid-x'>");
+      const selectType = $("<select class='cell small-4'>")
+      newDiv.append($("<input type='text' placeholder='stat-name' class='cell small-8'>"));
+      selectType.append($("<option value='1'>").text("Counter"));
+      selectType.append($("<option value='2'>").text("Ratio"));
+      selectType.append($("<option value='4'>").text("Colon Ratio"));
+      selectType.append($("<option value='8'>").text("Average"));
+      newDiv.append(selectType);
+      statDiv.append(newDiv);
+    }
+  })
+
+  $(".close-button").on("click", function () {
+    $(".stat-div").empty();
+  })
+  $(".new-stat-list").on("click", function () {
+    $(".stat-div").empty();
+  })
 </script>
