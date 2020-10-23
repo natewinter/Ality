@@ -1,49 +1,33 @@
 <div class="grid-container">
   <h1>{{user.username}}</h1>
-  <h6 id="user-id">{{user.id}}</h6>
-  {{!-- <form class="new-stat-list">
-    <div class="form-group">
-      <label>New Table Name:</label>
-      <input type="text" id="stat-list-name" name="statListName">
+  <form class="new-stat-list">
+    {{!-- to delete once sessions is in place --}}
+    <h6 id="user-id">{{user.id}}</h6>
+{{!-- opens modal form to gather number of stat tables to create --}}
+    <div class="reveal" id="exampleModal1" data-reveal>
+      {{> manyAlity}}
+      <br>
+      {{!-- x button to close modal --}}
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </form> --}}
-
-  {{!-- <button class="button new-stat-list" data-open="exampleModal1">New Stat List</button>
-  <div class="reveal" id="exampleModal1" data-reveal>
-    <h1>Awesome. I Have It.</h1>
-    <p class="lead">Your couch. It is mine.</p>
-    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div> --}}
-
-  <div class="reveal" id="exampleModal1" data-reveal>
-    {{> manyAlity name=this.name imgsrc=this.imgsrc stats=this.stats}}
-    {{!-- <h1>Awesome. I Have It.</h1>
-  <p class="lead">Your couch. It is mine.</p> --}}
-    <p></p>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="reveal" id="exampleModal2" data-reveal>
-    {{> statTypes name=this.name imgsrc=this.imgsrc stats=this.stats}}
-    <p></p>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+    {{!-- second modal for  stat types --}}
+    <div class="reveal" id="exampleModal2" data-reveal>
+      {{> statTypes }}
+      <p></p>
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
   <p><button class="button" data-open="exampleModal1" data-reveal-id="exampleModal1">New Stat List</button></p>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
 
   <div class="grid-x">
     {{#each stat_lists}}
     <p>
     <div class="cell small-9 callout">{{name}}</div>
-    <div class="cell small-1"></div><a href="/stat-lists/{{id}}" class="stat-table cell small-2 button"
+    <div class="cell small-1"></div><a href="/stat-list/{{id}}" class="stat-table cell small-2 button"
       data-id="{{id}}">Enter Table</a></p>
     {{/each}}
   </div>
@@ -64,12 +48,7 @@
       newDiv.append(selectType);
       statDiv.append(newDiv);
     }
-  })
 
-  $(".close-button").on("click", function () {
-    $(".stat-div").empty();
-  })
-  $(".new-stat-list").on("click", function () {
-    $(".stat-div").empty();
+
   })
 </script>

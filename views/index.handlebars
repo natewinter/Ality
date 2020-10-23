@@ -1,9 +1,9 @@
-<h1>Ality</h1>
+<div class="grid-container">
+  <h1>Ality</h1>
 
-<h2>Stats with a purpose</h2>
-<p>Ality is a cool website that lets you create your own number-crunching spreadsheets.</p>
-
-<div class="container">
+  <h2>Stats with a purpose</h2>
+  <p>Ality is a cool website that lets you create your own number-crunching spreadsheets.</p>
+{{!-- USER LOGIN, directs to user page --}}
   <h2>Login</h2>
   <form class="login-form">
     <div class="form-group">
@@ -14,37 +14,11 @@
       <label>Password:</label>
       <input type="text" id="login_password" name="Password">
     </div>
+    <button class="button" type="submit">Sign In</button>
   </form>
-
-<div class="reveal" id="exampleModal1" data-reveal>
- <h2>New User</h2>
-  <form class="new-user-form">
-    <div class="form-group">
-      <label for="ca">Username:</label>
-      <input type="text" id="new_username" name="new_username">
-    </div>
-
-    <div class="form-group">
-      <label for="ca">Email:</label>
-      <input type="text" id="new_email" name="new_email">
-    </div>
-
-    <div class="form-group">
-      <label for="ca">Password:</label>
-      <input type="text" id="new_password" name="new_password">
-    </div>
-    <button class="button" type="submit">Add User</button>
-  </form>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-<div id="butn">
-<button class="button" type="submit">login</button>
-<button class="button" data-open="exampleModal1">Create new account!</button>
-</div>
-
-
-  
+{{!-- Create a new Ality account (MODAL with partial) --}}
+  <p>Need an Ality Account? <a data-open="newUserModal" data-reveal-id="newUserModal">Sign up here!</a> </p>
+  <div class="reveal" id="newUserModal" data-reveal>
+    {{> newUser }}
+  </div>
 </div>
