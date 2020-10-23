@@ -1,0 +1,40 @@
+<form>
+    <h2>Add an Ality</h2>
+    <label for="alityName">Name</label>
+    <input type="text" name="alityName" id="alityName" placeholder="Name">
+    <label for="alityImageSrc">Image URL</label>
+    <input type="text" name="alityImageSrc" id="alityImageSrc" placeholder="http://placeholder.com/300/300">
+    {{#each statDefs}}
+        <h3>{{this.name}}</h3>
+        {{#if this.type==1}} {{!-- Counter --}}
+            <label for="a_{{this.id}}">Count:</label>
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+        {{/if}}
+
+        {{#if this.type==2}} {{!-- Plain Ratio --}}
+            <label for="a_{{this.id}}">Numerator</label>
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+
+            <label for="b_{{this.id}}">Denominator</label>
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+        {{/if}}
+
+        {{#if this.type==4}} {{!-- Colon Ratio --}}
+            <label for="a_{{this.id}}">Antecedent</label>
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            
+            <label for="b_{{this.id}}">Consequent</label>
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+        {{/if}}
+        
+        {{#if this.type==8}} {{!-- Average --}}
+            <label for="a_{{this.id}}">Total Sum</label>
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            
+            <label for="b_{{this.id}}">Count</label>
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+        {{/if}}
+        <br>
+    {{/each}}
+    <button type="submit">Submit</button>
+</form>
