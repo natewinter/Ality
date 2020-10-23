@@ -6,12 +6,12 @@
     <input type="text" name="alityImageSrc" id="alityImageSrc" placeholder="http://placeholder.com/300/300">
     {{#each statDefs}}
         <h3>{{this.name}}</h3>
-        {{#if this.type==1}} {{!-- Counter --}}
+        {{#if isCounter this.type}} {{!-- Counter --}}
             <label for="a_{{this.id}}">Count:</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
         {{/if}}
 
-        {{#if this.type==2}} {{!-- Plain Ratio --}}
+        {{#if isRatio this.type}} {{!-- Plain Ratio --}}
             <label for="a_{{this.id}}">Numerator</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
 
@@ -19,7 +19,7 @@
             <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
         {{/if}}
 
-        {{#if this.type==4}} {{!-- Colon Ratio --}}
+        {{#if isColon this.type}} {{!-- Colon Ratio --}}
             <label for="a_{{this.id}}">Antecedent</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
             
@@ -27,7 +27,7 @@
             <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
         {{/if}}
         
-        {{#if this.type==8}} {{!-- Average --}}
+        {{#if isAverage this.type}} {{!-- Average --}}
             <label for="a_{{this.id}}">Total Sum</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
             
