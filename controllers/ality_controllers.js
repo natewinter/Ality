@@ -6,8 +6,9 @@ const router = express.Router();
 const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
 
+const bcrypt = require("bcrypt");
+
 const seeder = require("../db/seeder.js");
-const e = require("express");
 
 // seeder.seed();
 
@@ -24,29 +25,34 @@ router.get("/users/:name", (req, res) => {
             username: req.params.name,
         }
     }).then(function (dbUser) {
-        if (dbUser) {
-            db.Stat_List.findAll({
-                include: [
-                    {
-                        model: db.User 
+        if ((dbUser)&&(req.session.user)) {
+            if(req.session.user.username==dbUser.username){
+                db.Stat_List.findAll({
+                    include: [
+                        {
+                            model: db.User 
+                        }
+                    ],
+                    where: {
+                        UserId: dbUser.id
                     }
-                ],
-                where: {
-                    UserId: dbUser.id
-                }
-            }).then(dbStat_Lists => {
-                const statListArray = [];
-                for (let index = 0; index < dbStat_Lists.length; index++) {
-                    const element = dbStat_Lists[index].toJSON();
-                    statListArray.push(element);
-                }
-                const nameAndLists = {
-                    user: dbUser.toJSON(),
-                    stat_lists: statListArray
-                }
-                console.log(nameAndLists);
-                return res.render("user", nameAndLists);
-            });
+                }).then(dbStat_Lists => {
+                    const statListArray = [];
+                    for (let index = 0; index < dbStat_Lists.length; index++) {
+                        const element = dbStat_Lists[index].toJSON();
+                        statListArray.push(element);
+                    }
+                    const nameAndLists = {
+                        user: dbUser.toJSON(),
+                        stat_lists: statListArray
+                    }
+                    console.log(nameAndLists);
+                    return res.render("user", nameAndLists);
+                });
+            } else {
+                return res.status(401).send("Unauthorized! You aren't that user!");
+            }
+            
         } else {
             return res.status(404).render("404");
         }
@@ -88,12 +94,22 @@ router.get("/stat-list/:id", (req, res) => {
 router.post("/api/users", function (req, res) {
     db.User.create({
         username: req.body.username,
-        email: req.body.email
+        email: req.body.email,
+        passhash: req.body.password
     }).then(function (dbUser) {
-        console.log(dbUser);
-        res.redirect("/");
+        req.session.user = {
+            username: dbUser.username,
+            email: dbUser.email,
+            id: dbUser.id
+        }
+        // res.redirect("/users/"+dbUser.username)
+        res.json(req.session.user);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
+
 router.get("/api/users", function (req, res) {
     db.User.findAll().then(function (dbUser) {
         if (!dbUser) {
@@ -143,6 +159,30 @@ router.post("/api/ality", function (req, res) {
         res.redirect("/user")
     });
 });
+
+router.post('/login', (req, res) => {
+    db.User.findOne({
+        where: { username: req.body.username }
+    }).then(user => {
+        //check if user entered password matches db password
+        if (!user) {
+            req.session.destroy();
+            return res.status(401).send('incorrect email or password')
+
+        } else if (bcrypt.compareSync(req.body.password, user.passhash)) {
+            req.session.user = {
+                username: user.username,
+                email: user.email,
+                id: user.id
+            }
+            return res.status(200).send("/users/"+user.username);
+        }
+        else {
+            req.session.destroy();
+            return res.status(401).send('incorrect email or password')
+        }
+    })
+})
 
 router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
@@ -212,5 +252,9 @@ router.get("/api/users/:id", (req, res) => {
         res.json(dbUser)
     })
 });
+
+router.get("/sessiondata", (req, res) => {
+    res.json(req.session);
+})
 
 module.exports = router;
