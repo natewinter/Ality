@@ -12,10 +12,11 @@ $(function() {
           password: password
         }).then(
           function() {
+            console.log("username: ", username)
             // Locate user to the correct user page
-            location.redirect("/users/" + username);
+            location.replace("/users/" + username)
           }
-        );
+        );  
       });
 
     //Making post request to make a new user
@@ -32,9 +33,9 @@ $(function() {
         //Send POST request to make new User first
         $.post("/api/users", newUser).then(
             function(res) {
-              // Locate user to their new user page
-              // location.redirect("/user/" + username);
-              console.log(res);
+            
+              console.log("users post: ", res);
+              $('.reveal').foundation('close');
             }
           );
       });
