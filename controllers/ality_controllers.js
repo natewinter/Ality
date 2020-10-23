@@ -16,7 +16,7 @@ const seeder = require("../db/seeder.js");
 router.get("/", (req, res) => {
     res.render("index");
 });
-
+// THIS route did not return UNIQUE stat list info when i ran test....
 router.get("/users/:name", (req, res) => {
     db.User.findOne({
         where: {
@@ -27,9 +27,12 @@ router.get("/users/:name", (req, res) => {
             db.Stat_List.findAll({
                 include: [
                     {
-                        model: db.User
+                        model: db.User 
                     }
-                ]
+                ],
+                where: {
+                    UserId: dbUser.id
+                }
             }).then(dbStat_Lists => {
                 const statListArray = [];
                 for (let index = 0; index < dbStat_Lists.length; index++) {

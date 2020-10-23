@@ -47,3 +47,8 @@ body {
 .progress {
     margin-top: -1em;
 }
+
+#butn{
+    margin: 0 auto;
+    display: block;
+}
