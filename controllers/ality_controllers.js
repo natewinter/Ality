@@ -17,7 +17,7 @@ const e = require("express");
 router.get("/", (req, res) => {
     res.render("index");
 });
-
+// THIS route did not return UNIQUE stat list info when i ran test....
 router.get("/users/:name", (req, res) => {
     db.User.findOne({
         where: {
@@ -28,7 +28,7 @@ router.get("/users/:name", (req, res) => {
             db.Stat_List.findAll({
                 include: [
                     {
-                        model: db.User
+                        model: db.User 
                     }
                 ]
             }).then(dbStat_Lists => {
