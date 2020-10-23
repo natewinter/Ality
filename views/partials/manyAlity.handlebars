@@ -1,0 +1,21 @@
+<h1>New Stat List</h1>
+<h2>What is the name of your new stat list?</h2>
+    <div class="form-group">
+        <label>New Table Name:</label>
+        <input type="text" id="stat-list-name" name="statListName">
+    </div>
+<h2>How many stats are you tracking?</h2>
+<div class="grid-x grid-margin-x">
+    <div class="cell small-10">
+        <div class="slider" data-slider data-initial-start="1" data-start="1" data-end="15">
+            <span class="slider-handle" data-slider-handle role="slider" tabindex="1"
+                aria-controls="sliderOutput1"></span>
+            <span class="slider-fill" data-slider-fill></span>
+        </div>
+    </div>
+    <div class="cell small-2">
+        <input type="number" id="sliderOutput1">
+    </div>
+</div>
+{{!-- x button to close modal --}}
+<button class="button" data-close data-open="exampleModal2" id="nextButton">Next</button>

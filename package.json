@@ -1,0 +1,34 @@
+{
+  "name": "ality",
+  "version": "1.0.0",
+  "description": "Ality is a flexible statistic-tracking and charting tool that can be tailored by the user to fit any situation from competitve sports to parenting to game analysis",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natewinter/Ality.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natewinter/Ality/issues"
+  },
+  "homepage": "https://github.com/natewinter/Ality#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.1.0",
+    "express-session": "^1.17.1",
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "foundation-sites": "^6.6.3",
+    "motion-ui": "^2.0.3"
+  }
+}

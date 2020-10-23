@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-divider">
+        {{name}}
+    </div>
+    <img src={{imgsrc}} alt="">
+    <div class="card-section">
+        {{#each stats}}
+            <p class="stat-label">{{this.name}}: {{this.typeText}}</p>
+            {{#if this.ratio}}
+                <div class="progress">
+                    <span class="progress-meter" style="width: {{this.percentage}}%">
+                        <span class="progress-meter-text">
+                            {{#if this.colonForm}}
+                                {{this.a}}:{{this.b}}
+                            {{else}}
+                                {{this.quo}}
+                            {{/if}}
+                        </span>
+                    </span>
+                </div>
+            {{/if}}
+            {{#if this.counter}}
+                <p class="stat">{{this.a}}</p>
+            {{/if}}
+            {{#if this.average}}
+                <p class="stat">{{this.quo}}</p>
+            {{/if}}
+        {{/each}}
+    </div>
+</div>

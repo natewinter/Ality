@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS ality_db;
+CREATE DATABASE ality_db;

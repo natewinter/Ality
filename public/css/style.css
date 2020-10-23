@@ -1,0 +1,54 @@
+body {
+    min-height: 100vh;
+    background-color: black;
+    background: linear-gradient(45deg, #00000000 30%, #BF3065), linear-gradient(135deg, #00000000 30%, #BF8B0A), linear-gradient(225deg, #00000000 30%, #1D4BBF), linear-gradient(315deg, #00000000 30%, #13Bf20), linear-gradient(#000000, #000000);
+}
+
+.callout {
+    /* background: linear-gradient(to right, #00000000 30%, #BF3065), linear-gradient(to right, #00000000 30%, #BF8B0A), linear-gradient(to right, #00000000 30%, #1D4BBF), linear-gradient(to right, #00000000 30%, #13Bf20); */
+    background: lightblue;
+    border-radius: 25px;
+}
+
+.stat-table {
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.new-stat-list {
+    border-radius: 20px;
+}
+
+.stat {
+    font-size: 1.25em;
+}
+
+.stat-label {
+    color: #cccccc;
+}
+
+.card-section {
+    background-color: #222222dd;
+    backdrop-filter: blur(150px);
+}
+
+.card-divider {
+    background-color: #000000dd;
+    backdrop-filter: blur(150px);
+}
+
+.card {
+    background: none;
+    color: white;
+    border: #000000dd solid 1px;
+}
+
+.progress {
+    margin-top: -1em;
+}
+
+#butn{
+    margin: 0 auto;
+    display: block;
+}
