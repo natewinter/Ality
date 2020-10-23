@@ -33,14 +33,14 @@
   </div>
 </div>
 
-<script>
+{{!-- <script>
   $("#nextButton").on("click", function (event) {
     const numStats = parseInt($("#sliderOutput1").val());
     const statDiv = $(".stat-div");
     for (let i = 0; i < numStats; i++) {
       const newDiv = $("<div class='grid-x'>");
-      const selectType = $("<select class='cell small-4'>")
-      newDiv.append($("<input type='text' placeholder='stat-name' class='cell small-8'>"));
+      const selectType = $("<select class='stat-type-select cell small-4'>")
+      newDiv.append($("<input type='text' placeholder='stat-name' class='stat-def-name cell small-8'>"));
       selectType.append($("<option value='1'>").text("Counter"));
       selectType.append($("<option value='2'>").text("Ratio"));
       selectType.append($("<option value='4'>").text("Colon Ratio"));
@@ -48,7 +48,5 @@
       newDiv.append(selectType);
       statDiv.append(newDiv);
     }
-
-
   })
-</script>
+</script> --}}
