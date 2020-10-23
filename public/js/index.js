@@ -13,7 +13,7 @@ $(function() {
         }).then(
           function() {
             console.log("username: ", username)
-            // Locate user to the correct user page
+
             location.replace("/users/" + username)
           }
         );  
@@ -41,20 +41,22 @@ $(function() {
       });
 
     // Making post request to make a new stat_list
-    // $(".new-stat-list").on("submit", function(event){
-    //   event.preventDefault();
-    //   var stat_list_name = $("#stat-list-name").val().trim();
-    //   var userID = $("#user-id").text();
-    //   const newStatList = {
-    //     name: stat_list_name,
-    //     UserId: userID
-    //   }
-    //   console.log("stat_list_name:", newStatList);
-    //   $.post("/api/stat-lists", newStatList).then(
-    //     function(res) {
-    //       console.log(res);
-    //       window.location.reload();
-    //     }
-    //   )
-    // })
+    $(".new-stat-list").on("click", function(event){
+      event.preventDefault();
+      debugger;
+      var stat_list_name = $("#stat-list-name").val().trim();
+      var userID = $("#user-id").text();
+      const newStatList = {
+        name: stat_list_name,
+        UserId: userID
+      }
+      console.log("stat_list_name:", newStatList);
+      $.post("/api/stat-lists", newStatList).then(
+        function(res) {
+          console.log("stat-list post: ", res);
+          window.location.reload();
+          $('.reveal').foundation('close');
+        }
+      )
+    })
 })
