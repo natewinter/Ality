@@ -64,7 +64,11 @@ router.get("/stat-list/:id", (req, res) => {
                     {
                         model: db.Stat_Def
                     }
-                ]
+                ],
+
+                where: {
+                    "$Ality.StatListId$": dbStat_List.id
+                }
 
             }).then(dbData_Values => {
                 console.log(dbStat_List.name);
