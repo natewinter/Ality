@@ -121,12 +121,14 @@ router.get("/api/users", function (req, res) {
 });
 
 router.post("/api/stat-lists", function (req, res) {
-    console.log("req.body:", req.body);
+    console.log("\n req.body:", req.body);
+    console.log("THIS IS REALLY BIG CAPS")
     db.Stat_List.create({
         name: req.body.name,
         UserId: req.body.UserId
     }).then(function (dbStatlist) {
-        console.log(dbStatlist);
+        
+        console.table(dbStatlist);
         // res.reload();
         res.json(dbStatlist)
     }).catch(function (err) {
@@ -152,7 +154,8 @@ router.post("/api/ality", function (req, res) {
         stat_list_id: req.body.stat_list_id
     }).then(function (dbAlity) {
         console.log(dbAlity);
-        // res.reload();
+        res.reload();
+        
         res.redirect("/user")
     });
 });
@@ -195,7 +198,8 @@ router.get("/api/ality", function (req, res) {
 router.post("/api/stat-defs", function (req, res) {
     db.Stat_Def.create({
         name: req.body.name,
-        stat_type: req.body.stat_type
+        stat_type: req.body.stat_type,
+        StatListId: req.body.StatListId
     }).then(function (dbStatDef) {
         console.log(dbStatDef);
         // res.reload();
