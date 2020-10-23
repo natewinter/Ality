@@ -7,7 +7,6 @@ const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
 
 const seeder = require("../db/seeder.js");
-const e = require("express");
 
 // seeder.seed();
 
