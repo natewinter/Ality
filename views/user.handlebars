@@ -1,18 +1,21 @@
 <div class="grid-container">
   <h1>{{user.username}}</h1>
   <form class="new-stat-list">
+    {{!-- to delete once sessions is in place --}}
     <h6 id="user-id">{{user.id}}</h6>
-
+{{!-- opens modal form to gather number of stat tables to create --}}
     <div class="reveal" id="exampleModal1" data-reveal>
       {{> manyAlity}}
-      <p></p>
+      <br>
+      {{!-- x button to close modal --}}
       <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+    {{!-- second modal for  stat types --}}
     <div class="reveal" id="exampleModal2" data-reveal>
       {{> statTypes }}
-      <br>
+      <p></p>
       <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -24,7 +27,7 @@
     {{#each stat_lists}}
     <p>
     <div class="cell small-9 callout">{{name}}</div>
-    <div class="cell small-1"></div><a href="/stat-lists/{{id}}" class="stat-table cell small-2 button"
+    <div class="cell small-1"></div><a href="/stat-list/{{id}}" class="stat-table cell small-2 button"
       data-id="{{id}}">Enter Table</a></p>
     {{/each}}
   </div>

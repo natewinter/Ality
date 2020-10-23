@@ -3,7 +3,7 @@
 
   <h2>Stats with a purpose</h2>
   <p>Ality is a cool website that lets you create your own number-crunching spreadsheets.</p>
-
+{{!-- USER LOGIN, directs to user page --}}
   <h2>Login</h2>
   <form class="login-form">
     <div class="form-group">
@@ -16,7 +16,7 @@
     </div>
     <button class="button" type="submit">Sign In</button>
   </form>
-
+{{!-- Create a new Ality account (MODAL with partial) --}}
   <p>Need an Ality Account? <a data-open="newUserModal" data-reveal-id="newUserModal">Sign up here!</a> </p>
   <div class="reveal" id="newUserModal" data-reveal>
     {{> newUser }}
