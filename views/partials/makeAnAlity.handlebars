@@ -1,17 +1,17 @@
 <form>
-    <h2>Add an Ality</h2>
+    <h3>Add an Ality</h2>
     <label for="alityName">Name</label>
     <input type="text" name="alityName" id="alityName" placeholder="Name">
     <label for="alityImageSrc">Image URL</label>
     <input type="text" name="alityImageSrc" id="alityImageSrc" placeholder="http://placeholder.com/300/300">
     {{#each statDefs}}
-        <h3>{{this.name}}</h3>
-        {{#if isCounter this.type}} {{!-- Counter --}}
+        <h4>{{this.name}}</h3>
+        {{#if (isCounter this.type)}} {{!-- Counter --}}
             <label for="a_{{this.id}}">Count:</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
         {{/if}}
 
-        {{#if isRatio this.type}} {{!-- Plain Ratio --}}
+        {{#if (isRatio this.type)}} {{!-- Plain Ratio --}}
             <label for="a_{{this.id}}">Numerator</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
 
@@ -19,7 +19,7 @@
             <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
         {{/if}}
 
-        {{#if isColon this.type}} {{!-- Colon Ratio --}}
+        {{#if (isColon this.type)}} {{!-- Colon Ratio --}}
             <label for="a_{{this.id}}">Antecedent</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
             
@@ -27,14 +27,13 @@
             <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
         {{/if}}
         
-        {{#if isAverage this.type}} {{!-- Average --}}
+        {{#if (isAverage this.type)}} {{!-- Average --}}
             <label for="a_{{this.id}}">Total Sum</label>
             <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
             
             <label for="b_{{this.id}}">Count</label>
             <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
         {{/if}}
-        <br>
     {{/each}}
-    <button type="submit">Submit</button>
+    <button type="submit" class="button">Submit</button>
 </form>
