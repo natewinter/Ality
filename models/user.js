@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = function(sequelize, DataTypes) {
     let User = sequelize.define("User", {
         email: {
@@ -20,5 +22,10 @@ module.exports = function(sequelize, DataTypes) {
     User.associate = function(models){
         User.hasMany(models.Stat_List);
     }
+
+    User.beforeCreate(function(user){
+        user.passhash = bcrypt.hashSync(user.passhash, bcrypt.genSaltSync(10),null);
+    })
+
     return User;
 };

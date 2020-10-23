@@ -6,17 +6,20 @@ $(function() {
         var username = $("#login_username").val().trim();
         var password = $("#login_password").val().trim();
         // Send the GET request.
-        $.ajax("/api/users/" + username, {
-          type: "GET",
-          username: username,
-          password: password
-        }).then(
-          function() {
-            console.log("username: ", username)
+        // $.ajax("/api/users/" + username, {
+        //   type: "GET",
+        //   username: username,
+        //   password: password
+        // }).then(
+        //   function() {
+        //     console.log("username: ", username)
 
-            location.replace("/users/" + username)
-          }
-        );  
+        //     location.replace("/users/" + username)
+        //   }
+        // );
+        $.post("/login", {username, password}).then(function(res){
+          window.location.href = res;
+        })
       });
 
     //Making post request to make a new user
@@ -33,9 +36,8 @@ $(function() {
         //Send POST request to make new User first
         $.post("/api/users", newUser).then(
             function(res) {
-            
-              console.log("users post: ", res);
               $('.reveal').foundation('close');
+              window.location.href = "/users/"+res.username;
             }
           );
       });
