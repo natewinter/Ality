@@ -25,7 +25,8 @@
     "express-session": "^1.17.1",
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "foundation-sites": "^6.6.3",
