@@ -95,10 +95,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 For those of you who love concept art, here's our original wireframe of Ality that served as our template for the app.
 
-![Wireframe](assets/images/Wireframe.PNG)
+![Wireframe](assets/images/Wireframe.png)
 
 ## ERD
 
 Below is our entity relationship diagram, or ERD. It shows all the relationships between the databases that Ality runs on and keeps track of. It even comes with our future goals. If you've got a good idea how to implement them, contact us!
 
-![ERD](assets/images/Full_ERD.PNG)
+![ERD](assets/images/Full_ERD.png)
