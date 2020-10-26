@@ -93,8 +93,7 @@ router.get("/stat-list/:id", (req, res) => {
                         
                     }).then(dbData_Values => {
                         // Render
-                        console.log(dbStat_List.name);
-                        console.log(dbStat_Def);
+                        console.log("RENDERING "+dbStat_List.name);
                         
                         let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
                         
