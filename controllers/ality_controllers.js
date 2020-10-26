@@ -94,6 +94,7 @@ router.get("/stat-list/:id", (req, res) => {
                     }).then(dbData_Values => {
                         // Render
                         console.log("RENDERING "+dbStat_List.name);
+                        console.table(dbData_Values);
                         
                         let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
                         
@@ -172,12 +173,11 @@ router.post("/api/ality", function (req, res) {
     db.Ality.create({
         name: req.body.name,
         image: req.body.image,
-        stat_list_id: req.body.stat_list_id
+        StatListId: req.body.StatListId
     }).then(function (dbAlity) {
         console.log(dbAlity);
-        res.reload();
         
-        res.redirect("/user")
+        res.json(dbAlity.dataValues);
     });
 });
 
@@ -237,18 +237,18 @@ router.get("/api/stat-defs", function (req, res) {
         };
         console.log(dbStatDef);
         // res.reload();
-        return res.json(dbStatDef)
+        res.json(dbStatDef)
     });
 });
 
 router.post("/api/data-values", function (req, res) {
-    db.Data_Value.create({
-        val_A: req.body.val_A,
-        val_B: req.body.val_B
-    }).then(function (dbDataValue) {
+    console.log("GETTING POSTED\n\n")
+    console.log(req.body);
+    db.Data_Value.bulkCreate(req.body.dataValueArray)
+    .then(function (dbDataValue) {
         console.log(dbDataValue);
         // res.reload();
-        res.redirect("/user")
+        // res.redirect("/user")
     });
 });
 

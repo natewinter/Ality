@@ -8,32 +8,32 @@
         <h4>{{this.name}}</h3>
         {{#if (isCounter this.statType)}} {{!-- Counter --}}
             <label for="a_{{this.id}}">Count:</label>
-            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}" class="stat-a">
         {{/if}}
 
         {{#if (isRatio this.statType)}} {{!-- Plain Ratio --}}
             <label for="a_{{this.id}}">Numerator</label>
-            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}" class="stat-a">
 
             <label for="b_{{this.id}}">Denominator</label>
-            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}" class="stat-b">
         {{/if}}
 
         {{#if (isColon this.statType)}} {{!-- Colon Ratio --}}
             <label for="a_{{this.id}}">Antecedent</label>
-            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}" class="stat-a">
             
             <label for="b_{{this.id}}">Consequent</label>
-            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}" class="stat-b">
         {{/if}}
         
         {{#if (isAverage this.statType)}} {{!-- Average --}}
             <label for="a_{{this.id}}">Total Sum</label>
-            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}">
+            <input type="number" name="a_{{this.id}}" id="a_{{this.id}}" class="stat-a">
             
             <label for="b_{{this.id}}">Count</label>
-            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}">
+            <input type="number" name="b_{{this.id}}" id="b_{{this.id}}" class="stat-b">
         {{/if}}
     {{/each}}
-    <button type="submit" class="button">Submit</button>
+    <button type="submit" class="button submit-new-ality">Submit</button>
 </form>

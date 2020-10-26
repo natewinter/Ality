@@ -119,4 +119,58 @@ $(function () {
     });
     
   });
+
+  $(".submit-new-ality").on("click", function (event) {
+    event.preventDefault();
+    var name = $("#alityName").val().trim();
+    var imgsrc = $("#alityImageSrc").val().trim();
+    var dataValueArray = [];
+
+    var urlParams = window.location.href.split("/");
+    const statListId = parseInt(urlParams[urlParams.length-1]);
+    console.table(urlParams);
+    console.log(statListId);
+
+    var newAlity = {
+      name,
+      image: imgsrc,
+      StatListId: statListId
+    };
+
+    // For each element of class stat_a or stat_b
+    // Add the info about those stats to objects in a new array
+    // For building the data-values objects
+    $(".stat-a").each(function(index){
+      const newDataValue = {};
+      newDataValue.StatDefId = parseInt($(this).attr("name").substring(2));
+      newDataValue.val_A = parseFloat($(this).val());
+      dataValueArray.push(newDataValue);
+    });
+
+    $(".stat-b").each(function(index){
+      const statDefId = parseInt($(this).attr("name").substring(2));
+      const arrIndex = dataValueArray.findIndex((value, index)=>{
+        return value.StatDefId == statDefId;
+      });
+
+      dataValueArray[arrIndex].val_B = parseFloat($(this).val());
+    });
+    
+    $.post("/api/ality", newAlity).then(function (res) {
+      console.log("ality post: ", res);
+      // $(".reveal").foundation("close");
+      
+      for(let i = 0; i<dataValueArray.length; i++){
+        dataValueArray[i].AlityId=res.id;
+      }
+
+      console.log(dataValueArray);
+
+      $.post("/api/data-values", {dataValueArray}).then(function (res) {
+        console.log(res);
+        window.location.reload();
+      })
+    });
+    
+  });
 });

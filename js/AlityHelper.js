@@ -5,6 +5,8 @@ const StatDef = require("./classes/StatDef.js");
 const StatTypes = Stat.StatTypes;
 
 function buildStatList(name, sqlDataValues, sqlStatDefs){
+    console.log("\nLOOK AT ME\n");
+    console.table(sqlDataValues);
     let alities = {};
     let statDefs = [];
     for (const i in sqlDataValues) {
