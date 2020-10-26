@@ -1,5 +1,6 @@
 // Dependencies
 const express = require("express");
+const favicon = require("serve-favicon");
 // Sets port for deploymet and localhost
 const PORT = process.env.PORT || 8080;
 // Sets up app express
@@ -19,6 +20,10 @@ app.use(session({
         maxAge: 2 * 60 * 60 * 1000
     }
 }))
+
+// Link favicon
+app.use(favicon(__dirname+"/public/assets/images/favicon.ico"));
+
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
