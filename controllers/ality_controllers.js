@@ -16,7 +16,8 @@ const seeder = require("../db/seeder.js");
 // PUBLIC =========================================================================================================
 // render home page
 router.get("/", (req, res) => {
-    res.status(200).render("index");
+    const renderData = {userdata:req.session.user}
+    res.status(200).render("index", renderData);
 });
 
 router.get("/401", (req, res) => {
@@ -249,8 +250,11 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    res.session.destroy();
+   if (req.session) {req.session.destroy();
     return res.status(200).redirect("/")
+   } else {
+       return res.status(404).redirect("/");
+   }
 })
 
 // FIXME: It seems that line 201 wouldn't matter, because this is api route and WILL always send empty array OR err?? Should  be 500 instead?
