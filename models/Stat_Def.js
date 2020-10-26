@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
     });
     Stat_Def.associate = function (models) {
         Stat_Def.hasMany(models.Data_Value);
-        Stat_Def.belongsTo(models.Ality);
+        Stat_Def.belongsTo(models.Stat_List);
     }
     return Stat_Def;
 }
