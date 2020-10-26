@@ -1,9 +1,9 @@
 class StatDef {
-    constructor(name, type, id){
-        this.name = name;
-        this.type = type;
-        this.id = id;
+    constructor(sqlData){
+        this.name = sqlData.name;
+        this.statType = sqlData.stat_type;
     }
+
 }
 
 module.exports = StatDef;

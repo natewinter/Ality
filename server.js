@@ -6,6 +6,20 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 // establishes db for sequelize
 const db = require("./models");
+
+require("dotenv").config();
+
+const session = require('express-session')
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "test",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 2 * 60 * 60 * 1000
+    }
+}))
+
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 // Sets up the Express app to handle data parsing
