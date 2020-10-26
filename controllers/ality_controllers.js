@@ -72,29 +72,51 @@ router.get("/users/:name", (req, res) => {
 // TODO: currently shows stat-lists regardless of user, maybe it doesn't matter...
 // TODO: add 401 and if statement
 router.get("/stat-list/:id", (req, res) => {
+    // Get the stat list with the given id
     db.Stat_List.findOne({
         where: {
             id: req.params.id,
         }
     }).then(function (dbStat_List) {
-        if (dbStat_List) {
-            db.Data_Value.findAll({
-                include: [
-                    {
-                        model: db.Ality
-                    },
-                    {
-                        model: db.Stat_Def
+        // Only show if owned by user
+        if (dbStat_List && req.session.user) {
+            if(dbStat_List.UserId==req.session.user.id){
+                
+                // If owned by user, get stat defs
+                db.Stat_Def.findAll({
+                    where: {
+                        StatListId: dbStat_List.id
                     }
-                ]
+                }).then(dbStat_Def=>{
+                    
+                    // Get Data Values
+                    db.Data_Value.findAll({
+                        include: [
+                            {
+                                model: db.Ality
+                            },
+                            {
+                                model: db.Stat_Def
+                            }
+                        ],
+                        where: {
+                            "$Ality.StatListId$": dbStat_List.id
+                        }
+                        
+                    }).then(dbData_Values => {
+                        // Render
+                        console.log("RENDERING "+dbStat_List.name);
+                        console.table(dbData_Values);
+                        
+                        let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
+                        
+                        return res.render("stat_list", stat_list);
+                    });
+                })
 
-            }).then(dbData_Values => {
-                console.log(dbStat_List.name);
-
-                let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values);
-
-                return res.render("stat_list", stat_list);
-            });
+            }else{
+                return res.status(401).send("Unauthorized! You aren't the owner of that stat list!");
+            }
         } else {
             return res.status(404).render("404");
         }
@@ -171,12 +193,11 @@ router.post("/api/ality", function (req, res) {
     db.Ality.create({
         name: req.body.name,
         image: req.body.image,
-        stat_list_id: req.body.stat_list_id
+        StatListId: req.body.StatListId
     }).then(function (dbAlity) {
         console.log(dbAlity);
-        res.reload();
         
-        res.redirect("/user")
+        res.json(dbAlity.dataValues);
     }).catch(err=>{
         console.log(err);
         res.status(500).send("server error")
@@ -257,13 +278,13 @@ router.get("/api/stat-defs", function (req, res) {
 });
 
 router.post("/api/data-values", function (req, res) {
-    db.Data_Value.create({
-        val_A: req.body.val_A,
-        val_B: req.body.val_B
-    }).then(function (dbDataValue) {
+    console.log("GETTING POSTED\n\n")
+    console.log(req.body);
+    db.Data_Value.bulkCreate(req.body.dataValueArray)
+    .then(function (dbDataValue) {
         console.log(dbDataValue);
         // res.reload();
-        res.redirect("/user")
+        // res.redirect("/user")
     }).catch(err=>{
         console.log(err);
         res.status(500).send("server error")

@@ -11,7 +11,6 @@ module.exports = function (sequelize, DataTypes) {
     Ality.associate = function (models) {
         Ality.belongsTo(models.Stat_List);
         Ality.hasMany(models.Data_Value);
-        Ality.hasMany(models.Stat_Def)
     }
     return Ality;
 };
