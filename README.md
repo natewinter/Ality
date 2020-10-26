@@ -15,24 +15,24 @@ PersonALITY. IndividuALITY. FunctionALITY. Ality is a flexible statistic-trackin
 ## Installation
 Ality is powered by [Express.js](https://www.expressjs.com) with [Handlebars](https://www.handlebarsjs.com). The styling is rendered through [foundation](https://get.foundation/) and [sass](https://sass-lang.com/documentation/js-api), and the database is created and accessed using the [mysql2 NPM package](https://www.npmjs.com/package/mysql2) and the [sequelize ORM](https://sequelize.org/). For further development, [node.js download](https://nodejs.org/en/) with an npm install is required.
 ## Usage 
-<!-- When website is finished, update with screenshots and give a mini-walkthrough -->
+
 Go to [Ality](https://ality-stats.herokuapp.com/), create a user name and password, and follow the prompts to begin creating your customized stat tables and ALITIES. Make your dreams a reALITY. Let's walk through how to use Ality, starting with the homepage.
 
 The Ality homepage should look like the screenshot below when you arrive.
 
-![Home Page](assets/images/Home_Page.png)
+![Home Page](assets/images/Home_Page.PNG)
 
 Create a new user account by clicking the "sign up here" link. Otherwise, type in your username and password, and hit the login button to log in. If you click the sign up link, this will pop up:
 
-![Sign Up Page](assets/images/Sign_Up_Page.png)
+![Sign Up Page](assets/images/Sign_Up_Page.PNG)
 
 When you've signed up and logged in, you'll be taken to the User Page where you can create new stat tables or go into one of your previously-created ones. Below is a screenshot of my Users Page. You can click the "New Stat List" button to create a new stat list, and hit the "Enter Table" button on the right of a given stat list to be taken to that stat list.
 
-![Users Page](assets/images/Users_Page.png)
+![Users Page](assets/images/Users_Page.PNG)
 
 Clicking the New Stat List button will open up the below modal to fill out some information about the stats you wish to track in this list. Namely, the name of the group of stats you will be tracking, like "Super Mario Strikers" for a stat list that will track Super Mario Strikers data. You will also be asked to declare how many stats this table will track, from 1 to 15.
 
-![New Stat List Modal 1](assets/images/New_Stat_List_Modal_1.png)
+![New Stat List Modal 1](assets/images/New_Stat_List_Modal_1.PNG)
 
 When you hit "next", a the below modal will pop up and ask you to define the stat types by giving a name for each stat as well as how you will be tracking each stat. You have four options for tracking: a "counter", a "ratio", a "colon ratio", and an "average". This is where you want to make sure you define all your wanted stats as we currently have not added edit functionality to add more stats in a stat table later in the process.
 
@@ -49,7 +49,7 @@ Now you can start tracking an individual's stats on this page. Most of the time,
 
 When you've added in your Ality, simply refresh the page, and a card showing all the ality's stats will appear!
 
-![Ality Page Filled Out](assets/images/Ality_Page_Filled_Out.png)
+![Ality Page Filled Out](assets/images/Ality_Page_Filled_Out.PNG)
 
 Now that you know how to carve your own reALITY, it's time to make your own!
 
@@ -95,10 +95,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 For those of you who love concept art, here's our original wireframe of Ality that served as our template for the app.
 
-![Wireframe](assets/images/Wireframe.png)
+![Wireframe](assets/images/Wireframe.PNG)
 
 ## ERD
 
 Below is our entity relationship diagram, or ERD. It shows all the relationships between the databases that Ality runs on and keeps track of. It even comes with our future goals. If you've got a good idea how to implement them, contact us!
 
-![ERD](assets/images/Full_ERD.png)
+![ERD](assets/images/Full_ERD.PNG)
