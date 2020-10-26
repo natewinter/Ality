@@ -125,6 +125,22 @@ router.get("/stat-list/:id", (req, res) => {
     });
 });
 
+router.delete("/api/stat-list/:id", (req, res) => {
+    // Get the stat list with the given id
+    db.Stat_List.destroy({
+        where: {
+            id: req.params.id,
+        }
+    }).then(function (dbStat_List) {
+        // Only show if owned by user
+        res.json(dbStat_List)
+        
+    }).catch(function (err) {
+        console.log(err);
+        res.status(500).send("servererr")
+    });
+});
+
 //  APIS =====================================================================
 
 router.post("/api/users", function (req, res) {
@@ -220,7 +236,7 @@ router.post('/login', (req, res) => {
                 email: user.email,
                 id: user.id
             }
-            return res.status(200).send("/users/"+user.username);
+            return res.status(200).json(req.session.user);
         }
         else {
             req.session.destroy();

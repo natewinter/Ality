@@ -9,7 +9,9 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
     Ality.associate = function (models) {
-        Ality.belongsTo(models.Stat_List);
+        Ality.belongsTo(models.Stat_List,{
+            onDelete: "CASCADE"
+        });
         Ality.hasMany(models.Data_Value);
     }
     return Ality;
