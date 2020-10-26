@@ -232,6 +232,11 @@ router.post('/login', (req, res) => {
     });
 })
 
+router.get('/logout', (req, res) => {
+    res.session.destroy();
+    return res.status(200).redirect("/")
+})
+
 // FIXME: It seems that line 201 wouldn't matter, because this is api route and WILL always send empty array OR err?? Should  be 500 instead?
 router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
