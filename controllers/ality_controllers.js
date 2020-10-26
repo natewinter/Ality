@@ -1,24 +1,33 @@
+// require npm express and express router
 const express = require("express");
 
 const router = express.Router();
 
-// Import the model to use its database functions.
+// Define sequelize db model to use the database functions and the Ality helper.
 const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
-
+// require bcrypt for sessions
 const bcrypt = require("bcrypt");
-
+// TODO: We aren't using 12 or 14, delete?
 const seeder = require("../db/seeder.js");
 
 // seeder.seed();
 
-//Build routes here!!!
-
 // PUBLIC =========================================================================================================
+// render home page
 router.get("/", (req, res) => {
-    res.render("index");
+    res.status(200).render("index");
 });
-// THIS route did not return UNIQUE stat list info when i ran test....
+
+router.get("/401", (req, res) => {
+    res.status(401).render("401");
+});
+
+router.get("/404", (req, res) => {
+    res.status(404).render("404");
+});
+// render unique users page upon proper authentication
+// TODO: When I had NO users in my DB and tried to log in, NOTHING happened.
 router.get("/users/:name", (req, res) => {
     db.User.findOne({
         where: {
@@ -46,19 +55,22 @@ router.get("/users/:name", (req, res) => {
                         user: dbUser.toJSON(),
                         stat_lists: statListArray
                     }
-                    console.log(nameAndLists);
+                    console.log("name and lists: ", nameAndLists);
                     return res.render("user", nameAndLists);
                 });
             } else {
-                return res.status(401).send("Unauthorized! You aren't that user!");
+                return res.status(401).render("401");
             }
             
         } else {
             return res.status(404).render("404");
         }
+    }).catch(function (err) {
+        console.log(err);
     });
 });
-
+// TODO: currently shows stat-lists regardless of user, maybe it doesn't matter...
+// TODO: add 401 and if statement
 router.get("/stat-list/:id", (req, res) => {
     // Get the stat list with the given id
     db.Stat_List.findOne({
@@ -108,6 +120,8 @@ router.get("/stat-list/:id", (req, res) => {
         } else {
             return res.status(404).render("404");
         }
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
@@ -124,6 +138,7 @@ router.post("/api/users", function (req, res) {
             email: dbUser.email,
             id: dbUser.id
         }
+        // TODO: do we want it to log in immediately upon create? I think the expected user action would be sign in required?
         // res.redirect("/users/"+dbUser.username)
         res.json(req.session.user);
     }).catch(err=>{
@@ -139,6 +154,8 @@ router.get("/api/users", function (req, res) {
         };
         console.log(dbUser);
         return res.json(dbUser);
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
@@ -153,8 +170,9 @@ router.post("/api/stat-lists", function (req, res) {
         console.table(dbStatlist);
         // res.reload();
         res.json(dbStatlist)
-    }).catch(function (err) {
+    }).catch(err=>{
         console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -166,6 +184,8 @@ router.get("/api/stat-lists", function (req, res) {
             return res.status(404).end()
         };
         return res.json(dbStatlist);
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
@@ -178,6 +198,9 @@ router.post("/api/ality", function (req, res) {
         console.log(dbAlity);
         
         res.json(dbAlity.dataValues);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -188,8 +211,9 @@ router.post('/login', (req, res) => {
         //check if user entered password matches db password
         if (!user) {
             req.session.destroy();
-            return res.status(401).send('incorrect email or password')
-
+// TODO: Why won't it render 401?
+            return res.status(401).redirect("/401")
+ 
         } else if (bcrypt.compareSync(req.body.password, user.passhash)) {
             req.session.user = {
                 username: user.username,
@@ -200,19 +224,25 @@ router.post('/login', (req, res) => {
         }
         else {
             req.session.destroy();
-            return res.status(401).send('incorrect email or password')
+            return res.status(401).redirect("/401")
         }
-    })
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
+    });
 })
 
+// FIXME: It seems that line 201 wouldn't matter, because this is api route and WILL always send empty array OR err?? Should  be 500 instead?
 router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
-        if (!dbAlity) {
-            return res.status(404).end()
-        };
+        // if (!dbAlity) {
+        //     return res.status(404).end()
+        // };
         console.log(dbAlity);
-        // res.reload();
         return res.json(dbAlity)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -223,21 +253,27 @@ router.post("/api/stat-defs", function (req, res) {
         StatListId: req.body.StatListId
     }).then(function (dbStatDef) {
         console.log(dbStatDef);
-        // res.reload();
         res.redirect("/user")
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
+// FIXME: It seems that line 230 wouldn't matter, because this is api route and WILL always send empty array OR err??
 router.get("/api/stat-defs", function (req, res) {
     db.Stat_Def.findAll().then(function (dbStatDef) {
+        // console.log(dbStatDef);
+        // res.reload();
+        // if (!dbStatDef) {
+        //     return res.status(404).end()
+        // };
         console.log(dbStatDef);
         // res.reload();
-        if (!dbStatDef) {
-            return res.status(404).end()
-        };
-        console.log(dbStatDef);
-        // res.reload();
-        res.json(dbStatDef)
+        return res.json(dbStatDef)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -249,18 +285,25 @@ router.post("/api/data-values", function (req, res) {
         console.log(dbDataValue);
         // res.reload();
         // res.redirect("/user")
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
+// FIXME: It seems that line 256 wouldn't matter, because this is api route and WILL always send empty array OR err??
 router.get("/api/data-values", function (req, res) {
     db.Data_Value.findAll().then(function (dbDataValue) {
-        console.log(dbDataValue);
-        if (!dbDataValue) {
-            return res.status(404).end()
-        };
+        // console.log(dbDataValue);
+        // if (!dbDataValue) {
+        //     return res.status(404).end()
+        // };
         console.log(dbDataValue);
         // res.reload();
         return res.json(dbDataValue)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -270,12 +313,22 @@ router.get("/api/users/:id", (req, res) => {
             id: req.params.id
         }
     }).then(function (dbUser) {
-        res.json(dbUser)
-    })
+        console.log(dbUser);
+        if(!dbUser){
+            return res.status(404).end()
+        };
+        return res.json(dbUser)
+    }).catch(function (err) {
+        console.log(err);
+    });
 });
 
 router.get("/sessiondata", (req, res) => {
     res.json(req.session);
 })
+
+router.get("*", (req, res) => {
+    res.status(404).render("404");
+});
 
 module.exports = router;
