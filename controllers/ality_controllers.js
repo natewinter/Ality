@@ -60,29 +60,51 @@ router.get("/users/:name", (req, res) => {
 });
 
 router.get("/stat-list/:id", (req, res) => {
+    // Get the stat list with the given id
     db.Stat_List.findOne({
         where: {
             id: req.params.id,
         }
     }).then(function (dbStat_List) {
-        if (dbStat_List) {
-            db.Data_Value.findAll({
-                include: [
-                    {
-                        model: db.Ality
-                    },
-                    {
-                        model: db.Stat_Def
+        // Only show if owned by user
+        if (dbStat_List && req.session.user) {
+            if(dbStat_List.UserId==req.session.user.id){
+                
+                // If owned by user, get stat defs
+                db.Stat_Def.findAll({
+                    where: {
+                        StatListId: dbStat_List.id
                     }
-                ]
+                }).then(dbStat_Def=>{
+                    
+                    // Get Data Values
+                    db.Data_Value.findAll({
+                        include: [
+                            {
+                                model: db.Ality
+                            },
+                            {
+                                model: db.Stat_Def
+                            }
+                        ],
+                        where: {
+                            "$Ality.StatListId$": dbStat_List.id
+                        }
+                        
+                    }).then(dbData_Values => {
+                        // Render
+                        console.log(dbStat_List.name);
+                        console.log(dbStat_Def);
+                        
+                        let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
+                        
+                        return res.render("stat_list", stat_list);
+                    });
+                })
 
-            }).then(dbData_Values => {
-                console.log(dbStat_List.name);
-
-                let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values);
-
-                return res.render("stat_list", stat_list);
-            });
+            }else{
+                return res.status(401).send("Unauthorized! You aren't the owner of that stat list!");
+            }
         } else {
             return res.status(404).render("404");
         }
