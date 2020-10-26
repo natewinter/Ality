@@ -6,7 +6,9 @@ $(function () {
     var username = $("#login_username").val().trim();
     var password = $("#login_password").val().trim();
     $.post("/login", { username, password }).then(function (res) {
-      window.location.href = res;
+      window.sessionStorage.setItem("username", res.username);
+      window.sessionStorage.setItem("id", res.id);
+      window.location.href = "/users/" + sessionStorage.getItem("username")
     });
   });
 
@@ -54,10 +56,9 @@ $(function () {
   $(".new-stat-list").on("click", function (event) {
     event.preventDefault();
     var stat_list_name = $("#stat-list-name").val().trim();
-    var userID = $("#user-id").text();
     const newStatList = {
       name: stat_list_name,
-      UserId: userID,
+      UserId: window.sessionStorage.getItem("id")
     };
     console.log("stat_list_name:", newStatList);
   });
@@ -65,10 +66,9 @@ $(function () {
   $(".submit-stat-list").on("click", function (event) {
     event.preventDefault();
     var stat_list_name = $("#stat-list-name").val().trim();
-    var userID = $("#user-id").text();
     const newStatList = {
       name: stat_list_name,
-      UserId: userID,
+      UserId: window.sessionStorage.getItem("id")
     };
     console.log("stat_list_name:", newStatList);
     var sliderOutput = parseInt($("#sliderOutput1").val());
@@ -146,4 +146,16 @@ $(function () {
     });
     
   });
+  $(".deleteButton").on("click",function(){
+    $.ajax({
+      url: "/api/stat-list/" + $(this).attr("data-id"),
+      type: 'DELETE',
+      success: function(result) {
+        console.log(result)
+        window.location.reload()
+          // Do something with the result
+      }
+  });
+
+  })
 });
