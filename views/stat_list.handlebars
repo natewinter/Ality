@@ -1,7 +1,7 @@
 <div class="grid-container">
     <h1>Stat List: {{stat_list.name}}</h1>
     <div class="reveal" id="makeAnAlityModal" data-reveal>
-        {{> makeAnAlity statDefs=this.statDefs}}
+        {{> makeAnAlity statDefs=stat_list.statDefs}}
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -9,7 +9,7 @@
 
     <p><button class="button" data-open="makeAnAlityModal">Add an Ality</button></p>
 
-    <div class="grid-x grid-margin-x">
+    <div class="grid-x grid-margin-x"> {{stat_list.alities}}
         {{#each stat_list.alities}}
             <div class="cell small-6 medium-4">
                 {{#> ality name=this.name imgsrc=this.imgsrc stats=this.stats}}
