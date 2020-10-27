@@ -44,6 +44,7 @@ $(function () {
   $("#nextButton").on("click", function (event) {
     const numStats = parseInt($("#sliderOutput1").val());
     const statDiv = $(".stat-div");
+    statDiv.html("");
     for (let i = 0; i < numStats; i++) {
       const newDiv = $("<div class='stat-def-params grid-x'>");
       const selectType = $("<select class='stat-type-select cell small-4'>");
