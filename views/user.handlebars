@@ -1,8 +1,6 @@
 <div class="grid-container">
-  <h1>{{user.username}}</h1>
+  <h1>Welcome, {{userdata.username}}!</h1>
   <form class="new-stat-list">
-    {{!-- to delete once sessions is in place --}}
-    <h6 id="user-id">{{user.id}}</h6>
 {{!-- opens modal form to gather number of stat tables to create --}}
     <div class="reveal" id="exampleModal1" data-reveal>
       {{> manyAlity}}
@@ -21,32 +19,19 @@
       </button>
     </div>
   </form>
+
   <p><button class="button" data-open="exampleModal1" data-reveal-id="exampleModal1">New Stat List</button></p>
 
-  <div class="grid-x">
-    {{#each stat_lists}}
-    <p>
-    <div class="cell small-9 callout">{{name}}</div>
-    <div class="cell small-1"></div><a href="/stat-list/{{id}}" class="stat-table cell small-2 button"
-      data-id="{{id}}">Enter Table</a></p>
+  <div class="grid-container full">
+    {{#each nameAndLists.stat_lists}}
+    <div class="grid-x stat-list-row align-middle">
+      <div class="cell small-8">{{name}}</div>
+      <div class="cell small-4 clearfix">
+        <button data-id= {{id}} class= "deleteButton hollow button alert float-right" >Delete</button>
+        <a href="/stat-list/{{id}}" class="button float-right" data-id="{{id}}">View</a>
+      </div>
+    </div>
     {{/each}}
   </div>
 </div>
 
-{{!-- <script>
-  $("#nextButton").on("click", function (event) {
-    const numStats = parseInt($("#sliderOutput1").val());
-    const statDiv = $(".stat-div");
-    for (let i = 0; i < numStats; i++) {
-      const newDiv = $("<div class='grid-x'>");
-      const selectType = $("<select class='stat-type-select cell small-4'>")
-      newDiv.append($("<input type='text' placeholder='stat-name' class='stat-def-name cell small-8'>"));
-      selectType.append($("<option value='1'>").text("Counter"));
-      selectType.append($("<option value='2'>").text("Ratio"));
-      selectType.append($("<option value='4'>").text("Colon Ratio"));
-      selectType.append($("<option value='8'>").text("Average"));
-      newDiv.append(selectType);
-      statDiv.append(newDiv);
-    }
-  })
-</script> --}}

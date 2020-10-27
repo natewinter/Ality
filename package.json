@@ -25,10 +25,12 @@
     "express-session": "^1.17.1",
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "foundation-sites": "^6.6.3",
-    "motion-ui": "^2.0.3"
+    "motion-ui": "^2.0.3",
+    "node-sass": "^4.14.1"
   }
 }

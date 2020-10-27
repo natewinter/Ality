@@ -1,5 +1,6 @@
 // Dependencies
 const express = require("express");
+const favicon = require("serve-favicon");
 // Sets port for deploymet and localhost
 const PORT = process.env.PORT || 8080;
 // Sets up app express
@@ -20,6 +21,10 @@ app.use(session({
     }
 }))
 
+// Link favicon
+app.use(favicon(__dirname+"/public/assets/images/favicon.ico"));
+
+
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 // Sets up the Express app to handle data parsing
@@ -28,7 +33,25 @@ app.use(express.json());
 // Set Handlebars
 const exphbs = require("express-handlebars");
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+const hbs = exphbs.create({
+  defaultLayout: "main",
+  helpers: {
+    isCounter: function(value){
+      return value==1;
+    },
+    isRatio: function(value){
+      return value==2;
+    },
+    isColon: function(value){
+      return value==4;
+    },
+    isAverage: function(value){
+      return value==8;
+    }
+  }
+})
+
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.

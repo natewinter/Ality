@@ -6,3 +6,84 @@
 
 @include motion-ui-transitions;
 @include motion-ui-animations;
+
+$smoked-glass: #222222bb;
+$soot-glass: #000000bb;
+
+$ality-red: #bf3065;
+$ality-yellow: #bf8b0a;
+$ality-blue: #1d4bbf;
+$ality-green: #13bf20;
+$ality-magenta: map-get($foundation-palette, "primary");
+
+body {
+    min-height: 100vh;
+    background-color: black;
+    background: linear-gradient(45deg, #00000000 30%, $ality-red),
+        linear-gradient(135deg, #00000000 30%, $ality-yellow),
+        linear-gradient(225deg, #00000000 30%, $ality-blue),
+        linear-gradient(315deg, #00000000 30%, $ality-green),
+        linear-gradient(#000000, #000000);
+}
+
+.off-canvas {
+    background-color: $dark-gray;
+    color: $ality-magenta;
+}
+
+.sidebar-button {
+    margin: 1em;
+}
+
+.card-section {
+    background-color: $smoked-glass;
+    backdrop-filter: blur(150px);
+}
+
+.card-divider {
+    background-color: $soot-glass;
+    backdrop-filter: blur(150px);
+}
+
+.card {
+    background: none;
+    color: $white;
+    border: $smoked-glass solid 1px;
+
+    img {
+        // TODO: figure out aspect ratio
+        object-fit: cover;
+    }
+}
+
+.stat-list-row {
+    background-color: $smoked-glass;
+    backdrop-filter: blur(150px);
+    margin-bottom: 1em;
+    padding: 1em;
+
+    color: $white;
+
+    .button {
+        margin: auto;
+    }
+}
+
+.reveal {
+    background-color: $smoked-glass;
+    backdrop-filter: blur(50px);
+    color: $white;
+    border: none;
+
+    label {
+        color: $white;
+    }
+
+    .close-button {
+        color: $light-gray;
+    }
+
+    &:focus {
+        outline: $soot-glass solid 1px;
+    }
+}

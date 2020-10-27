@@ -1,25 +1,38 @@
+// require npm express and express router
 const express = require("express");
 
 const router = express.Router();
 
-// Import the model to use its database functions.
+// Define sequelize db model to use the database functions and the Ality helper.
 const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
-
+// require bcrypt for sessions
 const bcrypt = require("bcrypt");
 
+// For testing
 const seeder = require("../db/seeder.js");
 
 // seeder.seed();
 
-//Build routes here!!!
-
 // PUBLIC =========================================================================================================
+// render home page
 router.get("/", (req, res) => {
-    res.render("index");
+    const renderData = {userdata:req.session.user}
+    res.status(200).render("index", renderData);
 });
-// THIS route did not return UNIQUE stat list info when i ran test....
+
+router.get("/401", (req, res) => {
+    const renderData = {userdata:req.session.user}
+    res.status(401).render("401", renderData);
+});
+
+router.get("/404", (req, res) => {
+    const renderData = {userdata:req.session.user}
+    res.status(404).render("404", renderData);
+});
+// render unique users page upon proper authentication
 router.get("/users/:name", (req, res) => {
+    const renderData = {userdata:req.session.user};
     db.User.findOne({
         where: {
             username: req.params.name,
@@ -46,46 +59,92 @@ router.get("/users/:name", (req, res) => {
                         user: dbUser.toJSON(),
                         stat_lists: statListArray
                     }
-                    console.log(nameAndLists);
-                    return res.render("user", nameAndLists);
+                    console.log("name and lists: ", nameAndLists);
+                    renderData.nameAndLists = nameAndLists;
+                    return res.render("user", renderData);
                 });
             } else {
-                return res.status(401).send("Unauthorized! You aren't that user!");
+                return res.status(401).render("401", renderData);
             }
             
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
 router.get("/stat-list/:id", (req, res) => {
+    const renderData = {userdata:req.session.user};
+
+    // Get the stat list with the given id
     db.Stat_List.findOne({
         where: {
             id: req.params.id,
         }
     }).then(function (dbStat_List) {
-        if (dbStat_List) {
-            db.Data_Value.findAll({
-                include: [
-                    {
-                        model: db.Ality
-                    },
-                    {
-                        model: db.Stat_Def
+        // Only show if owned by user
+        if (dbStat_List && req.session.user) {
+            if(dbStat_List.UserId==req.session.user.id){
+                
+                // If owned by user, get stat defs
+                db.Stat_Def.findAll({
+                    where: {
+                        StatListId: dbStat_List.id
                     }
-                ]
+                }).then(dbStat_Def=>{
+                    
+                    // Get Data Values
+                    db.Data_Value.findAll({
+                        include: [
+                            {
+                                model: db.Ality
+                            },
+                            {
+                                model: db.Stat_Def
+                            }
+                        ],
+                        where: {
+                            "$Ality.StatListId$": dbStat_List.id
+                        }
+                        
+                    }).then(dbData_Values => {
+                        // Render
+                        console.log("RENDERING "+dbStat_List.name);
+                        console.table(dbData_Values);
+                        
+                        
+                        renderData.stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
+                        
+                        return res.render("stat_list", renderData);
+                    });
+                })
 
-            }).then(dbData_Values => {
-                console.log(dbStat_List.name);
-
-                let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values);
-
-                return res.render("stat_list", stat_list);
-            });
+            }else{
+                return res.status(401).render("401", renderData);
+            }
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
+
+router.delete("/api/stat-list/:id", (req, res) => {
+    // Get the stat list with the given id
+    db.Stat_List.destroy({
+        where: {
+            id: req.params.id,
+        }
+    }).then(function (dbStat_List) {
+        // Only show if owned by user
+        res.json(dbStat_List)
+        
+    }).catch(function (err) {
+        console.log(err);
+        res.status(500).send("500: There was an internal server error")
     });
 });
 
@@ -117,6 +176,8 @@ router.get("/api/users", function (req, res) {
         };
         console.log(dbUser);
         return res.json(dbUser);
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
@@ -131,8 +192,9 @@ router.post("/api/stat-lists", function (req, res) {
         console.table(dbStatlist);
         // res.reload();
         res.json(dbStatlist)
-    }).catch(function (err) {
+    }).catch(err=>{
         console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -144,6 +206,8 @@ router.get("/api/stat-lists", function (req, res) {
             return res.status(404).end()
         };
         return res.json(dbStatlist);
+    }).catch(function (err) {
+        console.log(err);
     });
 });
 
@@ -151,15 +215,17 @@ router.post("/api/ality", function (req, res) {
     db.Ality.create({
         name: req.body.name,
         image: req.body.image,
-        stat_list_id: req.body.stat_list_id
+        StatListId: req.body.StatListId
     }).then(function (dbAlity) {
         console.log(dbAlity);
-        res.reload();
         
-        res.redirect("/user")
+        res.json(dbAlity.dataValues);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
-
+// TODO: Still not redirecting to 401
 router.post('/login', (req, res) => {
     db.User.findOne({
         where: { username: req.body.username }
@@ -167,31 +233,44 @@ router.post('/login', (req, res) => {
         //check if user entered password matches db password
         if (!user) {
             req.session.destroy();
-            return res.status(401).send('incorrect email or password')
 
+            console.log("\n\nIMPROPER LOGIN ATTEMPT\n\n");
+// TODO: Why won't it render 401?
+            return res.status(401).end();
+ 
         } else if (bcrypt.compareSync(req.body.password, user.passhash)) {
             req.session.user = {
                 username: user.username,
                 email: user.email,
                 id: user.id
             }
-            return res.status(200).send("/users/"+user.username);
+            return res.status(302).json(req.session.user).redirect("/users/"+user.username);
         }
         else {
             req.session.destroy();
-            return res.status(401).send('incorrect email or password')
+            return res.status(401).end();
         }
-    })
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
+    });
+})
+
+router.get('/logout', (req, res) => {
+   if (req.session) {req.session.destroy();
+    return res.status(200).redirect("/")
+   } else {
+       return res.status(404).redirect("/");
+   }
 })
 
 router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
-        if (!dbAlity) {
-            return res.status(404).end()
-        };
         console.log(dbAlity);
-        // res.reload();
         return res.json(dbAlity)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -202,44 +281,45 @@ router.post("/api/stat-defs", function (req, res) {
         StatListId: req.body.StatListId
     }).then(function (dbStatDef) {
         console.log(dbStatDef);
-        // res.reload();
         res.redirect("/user")
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
 router.get("/api/stat-defs", function (req, res) {
     db.Stat_Def.findAll().then(function (dbStatDef) {
         console.log(dbStatDef);
-        // res.reload();
-        if (!dbStatDef) {
-            return res.status(404).end()
-        };
-        console.log(dbStatDef);
-        // res.reload();
         return res.json(dbStatDef)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
 router.post("/api/data-values", function (req, res) {
-    db.Data_Value.create({
-        val_A: req.body.val_A,
-        val_B: req.body.val_B
-    }).then(function (dbDataValue) {
+    console.log("GETTING POSTED\n\n")
+    console.log(req.body);
+    db.Data_Value.bulkCreate(req.body.dataValueArray)
+    .then(function (dbDataValue) {
         console.log(dbDataValue);
         // res.reload();
-        res.redirect("/user")
+        // res.redirect("/user")
+        res.send(200);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
 router.get("/api/data-values", function (req, res) {
     db.Data_Value.findAll().then(function (dbDataValue) {
         console.log(dbDataValue);
-        if (!dbDataValue) {
-            return res.status(404).end()
-        };
-        console.log(dbDataValue);
-        // res.reload();
         return res.json(dbDataValue)
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error")
     });
 });
 
@@ -249,12 +329,22 @@ router.get("/api/users/:id", (req, res) => {
             id: req.params.id
         }
     }).then(function (dbUser) {
-        res.json(dbUser)
-    })
+        console.log(dbUser);
+        if(!dbUser){
+            return res.status(404).end()
+        };
+        return res.json(dbUser)
+    }).catch(function (err) {
+        console.log(err);
+    });
 });
 
 router.get("/sessiondata", (req, res) => {
     res.json(req.session);
 })
+
+router.get("*", (req, res) => {
+    res.status(404).render("404");
+});
 
 module.exports = router;

@@ -1,7 +1,8 @@
 class StatList {
-    constructor(name, alities){
+    constructor(name, alities, statDefs){
         this.name = name,
-        this.alities = alities
+        this.alities = alities,
+        this.statDefs = statDefs
     }
 
     setAlities(alitiesArr){
