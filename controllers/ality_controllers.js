@@ -244,7 +244,7 @@ router.post('/login', (req, res) => {
                 email: user.email,
                 id: user.id
             }
-            return res.status(200).json(req.session.user);
+            return res.status(302).json(req.session.user).redirect("/users/"+user.username);
         }
         else {
             req.session.destroy();
