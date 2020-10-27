@@ -15,6 +15,15 @@
       <input type="password" id="login_password" name="Password">
     </div>
     <button class="button" type="submit">Sign In</button>
+
+    <div id="bad-login" class="callout alert" data-reveal="bad-login" data-closable>
+      <h3>Bad Login!</h3>
+      <p>Your username or password was incorrect. Please try again or <a data-open="newUserModal">register a new account</a></p>
+      <button class="close-button" aria-label="Dismiss alert" type="button" data-close="bad-login">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
   </form>
 {{!-- Create a new Ality account (MODAL with partial) --}}
   <p>Need an Ality Account? <a data-open="newUserModal" data-reveal-id="newUserModal">Sign up here!</a> </p>

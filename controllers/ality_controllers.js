@@ -235,8 +235,10 @@ router.post('/login', (req, res) => {
         //check if user entered password matches db password
         if (!user) {
             req.session.destroy();
+
+            console.log("\n\nIMPROPER LOGIN ATTEMPT\n\n");
 // TODO: Why won't it render 401?
-            return res.status(401).redirect("/401")
+            return res.status(401).end();
  
         } else if (bcrypt.compareSync(req.body.password, user.passhash)) {
             req.session.user = {
@@ -248,7 +250,7 @@ router.post('/login', (req, res) => {
         }
         else {
             req.session.destroy();
-            return res.status(401).redirect("/401")
+            return res.status(401).end();
         }
     }).catch(err=>{
         console.log(err);
