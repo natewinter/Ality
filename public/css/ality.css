@@ -5241,3 +5241,15 @@ body {
   color: #fefefe; }
   .stat-list-row .button {
     margin: auto; }
+
+.reveal {
+  background-color: #222222bb;
+  backdrop-filter: blur(50px);
+  color: #fefefe;
+  border: none; }
+  .reveal label {
+    color: #fefefe; }
+  .reveal .close-button {
+    color: #dddddd; }
+  .reveal:focus {
+    outline: #000000bb solid 1px; }

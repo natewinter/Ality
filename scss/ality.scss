@@ -63,3 +63,22 @@ body {
         margin: auto;
     }
 }
+
+.reveal {
+    background-color: $smoked-glass;
+    backdrop-filter: blur(50px);
+    color: $white;
+    border: none;
+
+    label {
+        color: $white;
+    }
+
+    .close-button {
+        color: $light-gray;
+    }
+
+    &:focus {
+        outline: $soot-glass solid 1px;
+    }
+}
