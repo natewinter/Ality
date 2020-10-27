@@ -27,8 +27,7 @@ $(function () {
     //Send POST request to make new User first
     $.post("/api/users", newUser).then(function (res) {
       $(".reveal").foundation("close");
-         // TODO: change so it requires login? otherwise there is no "SESSION"
-      // window.location.href = "/users/" + res.username;
+      window.location.href = "/users/" + res.username;
     });
   });
 
