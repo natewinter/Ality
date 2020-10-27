@@ -319,6 +319,7 @@ router.post("/api/data-values", function (req, res) {
         console.log(dbDataValue);
         // res.reload();
         // res.redirect("/user")
+        res.send(200);
     }).catch(err=>{
         console.log(err);
         res.status(500).send("server error")
