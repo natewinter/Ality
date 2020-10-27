@@ -5,10 +5,17 @@ $(function () {
     event.preventDefault();
     var username = $("#login_username").val().trim();
     var password = $("#login_password").val().trim();
-    $.post("/login", { username, password }).then(function (res) {
-      window.sessionStorage.setItem("username", res.username);
-      window.sessionStorage.setItem("id", res.id);
-      window.location.href = "/users/" + sessionStorage.getItem("username")
+    $.post("/login", { username, password }).always(function (res) {
+      if(res.status == 401){
+        console.log("401 Error!");
+        // Handle 401 error
+        $("#bad-login").foundation("open");
+      } else {
+        window.sessionStorage.setItem("username", res.responseJSON.username);
+        window.sessionStorage.setItem("id", res.responseJSON.id);
+        console.log(res);
+        window.location.href = "/users/" + res.responseJSON.username;
+      }
     });
   });
 
@@ -27,13 +34,17 @@ $(function () {
     //Send POST request to make new User first
     $.post("/api/users", newUser).then(function (res) {
       $(".reveal").foundation("close");
-      window.location.href = "/users/" + res.username;
+        window.sessionStorage.setItem("username", res.username);
+        window.sessionStorage.setItem("id", res.id)
+        console.log(res);
+        window.location.href = "/users/"+res.username;
     });
   });
 
   $("#nextButton").on("click", function (event) {
     const numStats = parseInt($("#sliderOutput1").val());
     const statDiv = $(".stat-div");
+    statDiv.html("");
     for (let i = 0; i < numStats; i++) {
       const newDiv = $("<div class='stat-def-params grid-x'>");
       const selectType = $("<select class='stat-type-select cell small-4'>");

@@ -22,14 +22,17 @@ router.get("/", (req, res) => {
 });
 
 router.get("/401", (req, res) => {
-    res.status(401).render("401");
+    const renderData = {userdata:req.session.user}
+    res.status(401).render("401", renderData);
 });
 
 router.get("/404", (req, res) => {
-    res.status(404).render("404");
+    const renderData = {userdata:req.session.user}
+    res.status(404).render("404", renderData);
 });
 // render unique users page upon proper authentication
 router.get("/users/:name", (req, res) => {
+    const renderData = {userdata:req.session.user};
     db.User.findOne({
         where: {
             username: req.params.name,
@@ -57,14 +60,15 @@ router.get("/users/:name", (req, res) => {
                         stat_lists: statListArray
                     }
                     console.log("name and lists: ", nameAndLists);
-                    return res.render("user", nameAndLists);
+                    renderData.nameAndLists = nameAndLists;
+                    return res.render("user", renderData);
                 });
             } else {
-                return res.status(401).render("401");
+                return res.status(401).render("401", renderData);
             }
             
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
     }).catch(function (err) {
         console.log(err);
@@ -72,6 +76,8 @@ router.get("/users/:name", (req, res) => {
 });
 
 router.get("/stat-list/:id", (req, res) => {
+    const renderData = {userdata:req.session.user};
+
     // Get the stat list with the given id
     db.Stat_List.findOne({
         where: {
@@ -108,17 +114,18 @@ router.get("/stat-list/:id", (req, res) => {
                         console.log("RENDERING "+dbStat_List.name);
                         console.table(dbData_Values);
                         
-                        let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
                         
-                        return res.render("stat_list", stat_list);
+                        renderData.stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
+                        
+                        return res.render("stat_list", renderData);
                     });
                 })
 
             }else{
-                return res.status(404).render("404");
+                return res.status(401).render("401", renderData);
             }
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
     }).catch(function (err) {
         console.log(err);
@@ -137,7 +144,7 @@ router.delete("/api/stat-list/:id", (req, res) => {
         
     }).catch(function (err) {
         console.log(err);
-        res.status(500).send("server err")
+        res.status(500).send("500: There was an internal server error")
     });
 });
 
@@ -226,7 +233,10 @@ router.post('/login', (req, res) => {
         //check if user entered password matches db password
         if (!user) {
             req.session.destroy();
-            return res.status(401)
+
+            console.log("\n\nIMPROPER LOGIN ATTEMPT\n\n");
+// TODO: Why won't it render 401?
+            return res.status(401).end();
  
         } else if (bcrypt.compareSync(req.body.password, user.passhash)) {
             req.session.user = {
@@ -234,11 +244,11 @@ router.post('/login', (req, res) => {
                 email: user.email,
                 id: user.id
             }
-            return res.status(200).json(req.session.user);
+            return res.status(302).json(req.session.user).redirect("/users/"+user.username);
         }
         else {
             req.session.destroy();
-            return res.status(401)
+            return res.status(401).end();
         }
     }).catch(err=>{
         console.log(err);
@@ -294,6 +304,9 @@ router.post("/api/data-values", function (req, res) {
     db.Data_Value.bulkCreate(req.body.dataValueArray)
     .then(function (dbDataValue) {
         console.log(dbDataValue);
+        // res.reload();
+        // res.redirect("/user")
+        res.send(200);
     }).catch(err=>{
         console.log(err);
         res.status(500).send("server error")
