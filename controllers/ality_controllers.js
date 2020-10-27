@@ -8,7 +8,8 @@ const db = require("../models/");
 const AlityHelper = require("../js/AlityHelper.js");
 // require bcrypt for sessions
 const bcrypt = require("bcrypt");
-// TODO: We aren't using 12 or 14, delete?
+
+// For testing
 const seeder = require("../db/seeder.js");
 
 // seeder.seed();
@@ -30,7 +31,6 @@ router.get("/404", (req, res) => {
     res.status(404).render("404", renderData);
 });
 // render unique users page upon proper authentication
-// TODO: When I had NO users in my DB and tried to log in, NOTHING happened.
 router.get("/users/:name", (req, res) => {
     const renderData = {userdata:req.session.user};
     db.User.findOne({
@@ -74,8 +74,7 @@ router.get("/users/:name", (req, res) => {
         console.log(err);
     });
 });
-// TODO: currently shows stat-lists regardless of user, maybe it doesn't matter...
-// TODO: add 401 and if statement
+
 router.get("/stat-list/:id", (req, res) => {
     const renderData = {userdata:req.session.user};
 
@@ -162,7 +161,6 @@ router.post("/api/users", function (req, res) {
             email: dbUser.email,
             id: dbUser.id
         }
-        // TODO: do we want it to log in immediately upon create? I think the expected user action would be sign in required?
         // res.redirect("/users/"+dbUser.username)
         res.json(req.session.user);
     }).catch(err=>{
@@ -227,7 +225,7 @@ router.post("/api/ality", function (req, res) {
         res.status(500).send("server error")
     });
 });
-
+// TODO: Still not redirecting to 401
 router.post('/login', (req, res) => {
     db.User.findOne({
         where: { username: req.body.username }
@@ -266,12 +264,8 @@ router.get('/logout', (req, res) => {
    }
 })
 
-// FIXME: It seems that line 201 wouldn't matter, because this is api route and WILL always send empty array OR err?? Should  be 500 instead?
 router.get("/api/ality", function (req, res) {
     db.Ality.findAll().then(function (dbAlity) {
-        // if (!dbAlity) {
-        //     return res.status(404).end()
-        // };
         console.log(dbAlity);
         return res.json(dbAlity)
     }).catch(err=>{
@@ -294,16 +288,9 @@ router.post("/api/stat-defs", function (req, res) {
     });
 });
 
-// FIXME: It seems that line 230 wouldn't matter, because this is api route and WILL always send empty array OR err??
 router.get("/api/stat-defs", function (req, res) {
     db.Stat_Def.findAll().then(function (dbStatDef) {
-        // console.log(dbStatDef);
-        // res.reload();
-        // if (!dbStatDef) {
-        //     return res.status(404).end()
-        // };
         console.log(dbStatDef);
-        // res.reload();
         return res.json(dbStatDef)
     }).catch(err=>{
         console.log(err);
@@ -326,15 +313,9 @@ router.post("/api/data-values", function (req, res) {
     });
 });
 
-// FIXME: It seems that line 256 wouldn't matter, because this is api route and WILL always send empty array OR err??
 router.get("/api/data-values", function (req, res) {
     db.Data_Value.findAll().then(function (dbDataValue) {
-        // console.log(dbDataValue);
-        // if (!dbDataValue) {
-        //     return res.status(404).end()
-        // };
         console.log(dbDataValue);
-        // res.reload();
         return res.json(dbDataValue)
     }).catch(err=>{
         console.log(err);
