@@ -2,7 +2,7 @@
     <div class="card-divider">
         {{name}}
     </div>
-    <img src={{imgsrc}} alt="">
+    <img src={{imgsrc}} alt="" onerror="this.src='http://placekitten.com/600/600'">
     <div class="card-section">
         {{#each stats}}
             <p class="stat-label">{{this.name}}: {{this.typeText}}</p>
