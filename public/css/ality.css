@@ -5232,6 +5232,8 @@ body {
   background: none;
   color: #fefefe;
   border: #222222bb solid 1px; }
+  .card img {
+    object-fit: cover; }
 
 .stat-list-row {
   background-color: #222222bb;

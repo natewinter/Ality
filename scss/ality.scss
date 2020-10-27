@@ -49,6 +49,11 @@ body {
     background: none;
     color: $white;
     border: $smoked-glass solid 1px;
+
+    img {
+        // TODO: figure out aspect ratio
+        object-fit: cover;
+    }
 }
 
 .stat-list-row {
