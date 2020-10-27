@@ -21,15 +21,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/401", (req, res) => {
-    res.status(401).render("401");
+    const renderData = {userdata:req.session.user}
+    res.status(401).render("401", renderData);
 });
 
 router.get("/404", (req, res) => {
-    res.status(404).render("404");
+    const renderData = {userdata:req.session.user}
+    res.status(404).render("404", renderData);
 });
 // render unique users page upon proper authentication
 // TODO: When I had NO users in my DB and tried to log in, NOTHING happened.
 router.get("/users/:name", (req, res) => {
+    const renderData = {userdata:req.session.user};
     db.User.findOne({
         where: {
             username: req.params.name,
@@ -57,14 +60,15 @@ router.get("/users/:name", (req, res) => {
                         stat_lists: statListArray
                     }
                     console.log("name and lists: ", nameAndLists);
-                    return res.render("user", nameAndLists);
+                    renderData.nameAndLists = nameAndLists;
+                    return res.render("user", renderData);
                 });
             } else {
-                return res.status(401).render("401");
+                return res.status(401).render("401", renderData);
             }
             
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
     }).catch(function (err) {
         console.log(err);
@@ -73,6 +77,8 @@ router.get("/users/:name", (req, res) => {
 // TODO: currently shows stat-lists regardless of user, maybe it doesn't matter...
 // TODO: add 401 and if statement
 router.get("/stat-list/:id", (req, res) => {
+    const renderData = {userdata:req.session.user};
+
     // Get the stat list with the given id
     db.Stat_List.findOne({
         where: {
@@ -109,17 +115,18 @@ router.get("/stat-list/:id", (req, res) => {
                         console.log("RENDERING "+dbStat_List.name);
                         console.table(dbData_Values);
                         
-                        let stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
                         
-                        return res.render("stat_list", stat_list);
+                        renderData.stat_list = AlityHelper.buildStatList(dbStat_List.name, dbData_Values, dbStat_Def);
+                        
+                        return res.render("stat_list", renderData);
                     });
                 })
 
             }else{
-                return res.status(401).send("Unauthorized! You aren't the owner of that stat list!");
+                return res.status(401).render("401", renderData);
             }
         } else {
-            return res.status(404).render("404");
+            return res.status(404).render("404", renderData);
         }
     }).catch(function (err) {
         console.log(err);
@@ -138,7 +145,7 @@ router.delete("/api/stat-list/:id", (req, res) => {
         
     }).catch(function (err) {
         console.log(err);
-        res.status(500).send("servererr")
+        res.status(500).send("500: There was an internal server error")
     });
 });
 
