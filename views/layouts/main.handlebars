@@ -12,17 +12,20 @@
 	<body>
 		<div class="off-canvas position-left" id="offCanvas" data-off-canvas>
 			<img class="side-bar-item"src="/assets/images/ality.png" alt="Ality">
+			<ul class="vertical menu">
+
 			<a class="side-bar-item" href="/">HOME</a> <br>
 			{{#if userdata.username}}
-			<a class="side-bar-item" href="/users/{{userdata.username}}">USER DASHBOARD</a> <br>
+				<a class="side-bar-item" href="/users/{{userdata.username}}">USER DASHBOARD</a> <br>
+				<a class="side-bar-item logout" href="/logout">LOGOUT</a>
 			{{/if}}
-			<a class="side-bar-item logout" href="/logout">LOGOUT</a>
+			</ul>
 			{{!--Ality image, logout, home, User Dashboard --}}
   {{!-- <!-- Your menu or Off-canvas content goes here --> --}}
 </div>
 	<div class="off-canvas-content" data-off-canvas-content>
   <!-- Your page content lives here -->
-  <button type="button" class="button side-bar-btn" data-toggle="offCanvas"> <div class="menu-icon"></div> </button>
+  <button type="button" class="button sidebar-button" data-toggle="offCanvas"> <div class="menu-icon"></div> </button>
   {{{ body }}}
 </div>	
 	</body>
