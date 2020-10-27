@@ -50,3 +50,16 @@ body {
     color: $white;
     border: $smoked-glass solid 1px;
 }
+
+.stat-list-row {
+    background-color: $smoked-glass;
+    backdrop-filter: blur(150px);
+    margin-bottom: 1em;
+    padding: 1em;
+
+    color: $white;
+
+    .button {
+        margin: auto;
+    }
+}

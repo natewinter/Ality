@@ -5232,3 +5232,12 @@ body {
   background: none;
   color: #fefefe;
   border: #222222bb solid 1px; }
+
+.stat-list-row {
+  background-color: #222222bb;
+  backdrop-filter: blur(150px);
+  margin-bottom: 1em;
+  padding: 1em;
+  color: #fefefe; }
+  .stat-list-row .button {
+    margin: auto; }

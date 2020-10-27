@@ -9,7 +9,7 @@
 
     <p><button class="button" data-open="makeAnAlityModal">Add an Ality</button></p>
 
-    <div class="grid-x grid-margin-x"> {{stat_list.alities}}
+    <div class="grid-x grid-margin-x">
         {{#each stat_list.alities}}
             <div class="cell small-6 medium-4">
                 {{#> ality name=this.name imgsrc=this.imgsrc stats=this.stats}}

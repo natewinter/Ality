@@ -1,5 +1,5 @@
 <div class="grid-container">
-  <h1>{{user.username}}</h1>
+  <h1>{{userdata.username}}</h1>
   <form class="new-stat-list">
 {{!-- opens modal form to gather number of stat tables to create --}}
     <div class="reveal" id="exampleModal1" data-reveal>
@@ -19,15 +19,18 @@
       </button>
     </div>
   </form>
+
   <p><button class="button" data-open="exampleModal1" data-reveal-id="exampleModal1">New Stat List</button></p>
 
-  <div class="grid-x">
+  <div class="grid-container full">
     {{#each nameAndLists.stat_lists}}
-    <p>
-    <div class="cell small-9 callout">{{name}}</div>
-    <div class="cell small-1"></div><a href="/stat-list/{{id}}" class="stat-table cell small-2 button"
-      data-id="{{id}}">Enter Table</a></p>
-    <div class="cell small-1"></div><button data-id= {{id}} class= "deleteButton button" >delete</button></p>
+    <div class="grid-x stat-list-row align-middle">
+      <div class="cell small-8">{{name}}</div>
+      <div class="cell small-4 clearfix">
+        <button data-id= {{id}} class= "deleteButton hollow button alert float-right" >delete</button>
+        <a href="/stat-list/{{id}}" class="button float-right" data-id="{{id}}">Enter Table</a>
+      </div>
+    </div>
     {{/each}}
   </div>
 </div>
